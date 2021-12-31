@@ -1,0 +1,164 @@
+<!doctype html><html dir=ltr lang=en data-theme=dark><head>
+<title>
+Mark Chmarny
+|
+Time series data management using InfluxDB
+</title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="
+      few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
+
+
+    ">
+<link rel=stylesheet href=/css/main.min.572e5d22a390a981698b5def60302e86c9be929e5f6b0d4df3a4670429bb4f51.css integrity="sha256-Vy5dIqOQqYFpi13vYDAuhsm+kp5faw1N86RnBCm7T1E=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/custom.min.59c9cafff576ceb7f4d77dbd930858fe4bb329e64af97cd63e84077a2efd86f2.css integrity="sha256-WcnK//V2zrf01329kwhY/kuzKeZK+XzWPoQHei79hvI=" crossorigin=anonymous media=screen>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel=preconnect href=https://fonts.googleapis.com>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
+<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
+<link rel=canonical href=https://blog.chmarny.com/posts/time-series-data-management-using-influxdb/>
+<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
+<meta name=twitter:title content="Time series data management using InfluxDB">
+<meta name=twitter:description content="After a pretty positive experience with influxdb I wanted to create a super simple telemetry producer (this one in Node.js) to spotlight a few types of time series data query supported in influxdb. (Source code available on GitHub)
+To get live data for this demo, I created a simple script that generates metric data for CPU Utilization and Free Memory on your local machine at 1 sec resolution.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Time series data management using InfluxDB","headline":"Time series data management using InfluxDB","alternativeHeadline":"","description":"
+      
+        After a pretty positive experience with influxdb I wanted to create a super simple telemetry producer (this one in Node.js) to spotlight a few types of time series data query supported in influxdb. (Source code available on GitHub)\nTo get live data for this demo, I created a simple script that generates metric data for CPU Utilization and Free Memory on your local machine at 1 sec resolution.
+
+
+      
+
+
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/time-series-data-management-using-influxdb\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2016","dateCreated":"2016-04-03T00:41:49.89Z","datePublished":"2016-04-03T00:41:49.89Z","dateModified":"2016-04-03T00:41:49.89Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/time-series-data-management-using-influxdb\/","wordCount":"247","genre":[],"keywords":[]}</script>
+</head>
+<body>
+<header><div class="page-top
+.">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<nav>
+<ul class=nav__list id=navMenu>
+<div class=nav__links>
+<li>
+<a href=/ title>Home</a>
+</li>
+<li>
+<a href=/posts/ title>Posts</a>
+</li>
+<li>
+<a href=/about/ title>About</a>
+</li>
+</div>
+<ul>
+<li>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</ul>
+</nav>
+</div>
+</header>
+<div class=wrapper>
+<aside><div class="sidebar
+.">
+<div class=sidebar__content>
+<div class=logo-title>
+<div class=title>
+<img src=/images/profile.png alt="profile picture">
+<h3 title><a href=/>Mark Chmarny</a></h3>
+<div class=description>
+<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
+</div>
+</div>
+</div>
+<ul class=social-links>
+<li>
+<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
+<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div><footer class="footer footer--sidebar">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></div>
+</aside>
+<main>
+<div class=autopagerize_page_element>
+<div class=content>
+<div class="post
+.">
+<div class=post-content>
+<div class=post-title>
+<h1>Time series data management using InfluxDB</h1>
+</div><p>After a pretty positive experience with <a href="http://influxdb.com&t=MDNmNjA2NmIwNTkxYjUzNDg0YzY2NTUwNmJmMjAzNjkzOGY0ZjFjNCxjclJsVjdENA%3D%3D">influxdb</a> I wanted to create a super simple telemetry producer (this one in Node.js) to spotlight a few types of time series data query supported in influxdb. (Source code available on <a href="https://github.com/mchmarny/timeseries-samples&t=Nzk1NjkzYWI3ZDU1OGUzYTg3YmY4MjBkMzE5ZDlmNjk2ODc2NmMzYixjclJsVjdENA%3D%3D">GitHub</a>)</p>
+<p><img src=/images/0__bqylsNDJDNtWuTyx.png alt></p>
+<p>To get live data for this demo, I created a simple script that generates metric data for CPU Utilization and Free Memory on your local machine at 1 sec resolution.</p>
+<h2 id=sample-queries>Sample queries</h2>
+<p>Select of values based on arbitrary time window.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>select</span><span class=w> </span><span class=n>sample</span><span class=err>\</span><span class=n>_value</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>cpu</span><span class=err>\</span><span class=n>_series</span><span class=w> </span><span class=k>where</span><span class=w> </span><span class=n>time</span><span class=w> </span><span class=o>&gt;</span><span class=w> </span><span class=err>‘</span><span class=mi>2013</span><span class=err>–</span><span class=mi>08</span><span class=err>–</span><span class=mi>12</span><span class=w> </span><span class=mi>23</span><span class=p>:</span><span class=mi>32</span><span class=p>:</span><span class=mi>01</span><span class=p>.</span><span class=mi>232</span><span class=err>’</span><span class=w> </span><span class=k>and</span><span class=w> </span><span class=n>time</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=mi>2013</span><span class=err>–</span><span class=mi>08</span><span class=err>–</span><span class=mi>12</span><span class=w> </span><span class=mi>23</span><span class=p>:</span><span class=mi>22</span><span class=p>:</span><span class=mi>055</span><span class=p>.</span><span class=mi>134</span><span class=w>
+</span></code></pre></div><p>On the fly 90th percentile of value in 5 second intervals. No windowing or period tables required.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>select</span><span class=w> </span><span class=n>percentile</span><span class=p>(</span><span class=n>sample</span><span class=err>\</span><span class=n>_value</span><span class=p>,</span><span class=w> </span><span class=mi>90</span><span class=p>)</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>mem</span><span class=err>\</span><span class=n>_series</span><span class=w> </span><span class=k>group</span><span class=w> </span><span class=k>by</span><span class=w> </span><span class=n>time</span><span class=p>(</span><span class=mi>5</span><span class=n>s</span><span class=p>);</span><span class=w>
+</span></code></pre></div><p>Standard deviation of value in 5 second intervals. Again, all ad-hoc, downsampling with no priori declarations.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>select</span><span class=w> </span><span class=n>stddev</span><span class=p>(</span><span class=n>sample</span><span class=err>\</span><span class=n>_value</span><span class=p>)</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>cpu</span><span class=err>\</span><span class=n>_series</span><span class=w> </span><span class=k>group</span><span class=w> </span><span class=k>by</span><span class=w> </span><span class=n>time</span><span class=p>(</span><span class=mi>1</span><span class=n>m</span><span class=p>);</span><span class=w>
+</span></code></pre></div><h2 id=why-influxdb>Why influxdb</h2>
+<p>Having done a few time series systems in Cassandra, HBase and yes, even Mongo, I was looking for something that would be already optimized for that specific data type. Furthermore, I wanted clean API as well as support for many of common telemetry aggregate functions:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>count<span class=o>()</span>, min<span class=o>()</span>, max<span class=o>()</span>, mean<span class=o>()</span>, mode<span class=o>()</span>, median<span class=o>()</span>, distinct<span class=o>()</span>, percentile<span class=o>()</span>, histogram<span class=o>()</span>, derivative<span class=o>()</span>, sum<span class=o>()</span>, stddev<span class=o>()</span>, first<span class=o>()</span>, last<span class=o>()</span>
+</code></pre></div><p>Additionally:</p>
+<ul>
+<li>Open source (MIT), hosted on <a href="https://github.com/influxdb/influxdb/&t=MzIyMmRlZjc3NTk3ZTAwYjM2OTFhMGM2YzA1MTU1MzQ5OTMyNDg4ZCxjclJsVjdENA%3D%3D">GitHub</a></li>
+<li>No external dependancies (nope, no zookeeper)</li>
+<li>SQL-like query and built-in UI</li>
+<li>On the fly, downsample aggregate (no need to define windows, just record it and query by ad-hoc period: e.g. 1s, 4s, 2m etc.)</li>
+<li>Clustering support (there is currently a limit of 2M writes per second in 0.9 release, which suppose to be removed in 1.0)</li>
+<li>Pure Golang since 0.9 (plus for me, may not be for others)</li>
+</ul>
+</div>
+<div class=post-footer>
+<div class=info>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div><footer class="footer footer--base">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></body>
+</html>

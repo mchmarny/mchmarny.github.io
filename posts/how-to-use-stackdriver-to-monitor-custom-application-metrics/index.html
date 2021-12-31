@@ -1,0 +1,165 @@
+<!doctype html><html dir=ltr lang=en data-theme=dark><head>
+<title>
+Mark Chmarny
+|
+How to use Stackdriver to monitor custom application metrics
+</title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="
+      few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
+
+
+    ">
+<link rel=stylesheet href=/css/main.min.572e5d22a390a981698b5def60302e86c9be929e5f6b0d4df3a4670429bb4f51.css integrity="sha256-Vy5dIqOQqYFpi13vYDAuhsm+kp5faw1N86RnBCm7T1E=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/custom.min.59c9cafff576ceb7f4d77dbd930858fe4bb329e64af97cd63e84077a2efd86f2.css integrity="sha256-WcnK//V2zrf01329kwhY/kuzKeZK+XzWPoQHei79hvI=" crossorigin=anonymous media=screen>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel=preconnect href=https://fonts.googleapis.com>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
+<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
+<link rel=canonical href=https://blog.chmarny.com/posts/how-to-use-stackdriver-to-monitor-custom-application-metrics/>
+<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
+<meta name=twitter:title content="How to use Stackdriver to monitor custom application metrics">
+<meta name=twitter:description content="Google Stackdriver has thousands of build-in metrics to monitor everything from Kubernetes cluster to database or storage. Stackdriver is also not just limited to Google Cloud Platform (GCP), it supports a number of AWS-native services and extensive log monitoring capabilities for a wide array of open source software packages, whether they run in the Cloud or in on premises.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How to use Stackdriver to monitor custom application metrics","headline":"How to use Stackdriver to monitor custom application metrics","alternativeHeadline":"","description":"
+      
+        Google Stackdriver has thousands of build-in metrics to monitor everything from Kubernetes cluster to database or storage. Stackdriver is also not just limited to Google Cloud Platform (GCP), it supports a number of AWS-native services and extensive log monitoring capabilities for a wide array of open source software packages, whether they run in the Cloud or in on premises.
+
+
+      
+
+
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/how-to-use-stackdriver-to-monitor-custom-application-metrics\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2017","dateCreated":"2017-12-27T22:08:13.48Z","datePublished":"2017-12-27T22:08:13.48Z","dateModified":"2017-12-27T22:08:13.48Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/how-to-use-stackdriver-to-monitor-custom-application-metrics\/","wordCount":"517","genre":[],"keywords":[]}</script>
+</head>
+<body>
+<header><div class="page-top
+.">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<nav>
+<ul class=nav__list id=navMenu>
+<div class=nav__links>
+<li>
+<a href=/ title>Home</a>
+</li>
+<li>
+<a href=/posts/ title>Posts</a>
+</li>
+<li>
+<a href=/about/ title>About</a>
+</li>
+</div>
+<ul>
+<li>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</ul>
+</nav>
+</div>
+</header>
+<div class=wrapper>
+<aside><div class="sidebar
+.">
+<div class=sidebar__content>
+<div class=logo-title>
+<div class=title>
+<img src=/images/profile.png alt="profile picture">
+<h3 title><a href=/>Mark Chmarny</a></h3>
+<div class=description>
+<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
+</div>
+</div>
+</div>
+<ul class=social-links>
+<li>
+<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
+<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div><footer class="footer footer--sidebar">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></div>
+</aside>
+<main>
+<div class=autopagerize_page_element>
+<div class=content>
+<div class="post
+.">
+<div class=post-content>
+<div class=post-title>
+<h1>How to use Stackdriver to monitor custom application metrics</h1>
+</div><p>Google <a href=https://cloud.google.com/stackdriver/>Stackdriver</a> has thousands of build-in metrics to monitor everything from Kubernetes cluster to database or storage. Stackdriver is also not just limited to Google Cloud Platform (GCP), it supports a number of AWS-native services and extensive log monitoring capabilities for a wide array of open source software packages, whether they run in the Cloud or in on premises.</p>
+<h2 id=custom-metrics>Custom Metrics</h2>
+<p>When developing a solution though, in addition to monitoring the infrastructure and software, you may also want to monitor internal application events, like throughput of specific types of events, multi-step transaction duration or a total end-to-end pipeline performance.</p>
+<p>To enable this kind of granular and custom monitoring, Stackdriver supports <a href=https://cloud.google.com/monitoring/custom-metrics/creating-metrics>custom metrics</a>. While it’s possible to write those metrics directly against Stackdriver <a href=https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors>metricDescriptors API</a>, it’s much easier to use the native <a href=https://cloud.google.com/logging/docs/reference/libraries>Client librar</a>y support provided by Stackdriver in many development languages (C#, GO, Java, Node.js, PHP, Python, Ruby).</p>
+<h2 id=producer>Producer</h2>
+<p>For illustration purposes, let’s assume you want to track special type of messages in your solution.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=nx>dataPoint</span> <span class=o>:=</span> <span class=o>&amp;</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>Point</span><span class=p>{</span>	<span class=nx>Interval</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>TimeInterval</span><span class=p>{</span>		<span class=nx>EndTime</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>googlepb</span><span class=p>.</span><span class=nx>Timestamp</span><span class=p>{</span><span class=nx>Seconds</span><span class=p>:</span> <span class=nx>time</span><span class=p>.</span><span class=nf>Now</span><span class=p>().</span><span class=nf>Unix</span><span class=p>()},</span>	<span class=p>},</span>	<span class=nx>Value</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>TypedValue</span><span class=p>{</span>		<span class=nx>Value</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>TypedValue_Int64Value</span><span class=p>{</span><span class=nx>Int64Value</span><span class=p>:</span> <span class=nx>m</span><span class=p>},</span>	<span class=p>},}</span>
+</code></pre></div><p>The Stackdriver libraries strongly type the metric (in this case Int64). Also, while normally you will include the timestamp of the time when the event was collected, for simplicity this example we will generate it at sending time.</p>
+<p>Your solution is distributed so in addition to the data point, we will also want to send the event source for each one of the events to allow us to attribute each event source individually.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=nx>tsRequest</span> <span class=o>:=</span> <span class=o>&amp;</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>CreateTimeSeriesRequest</span><span class=p>{</span>	<span class=nx>Name</span><span class=p>:</span> <span class=nx>monitoring</span><span class=p>.</span><span class=nf>MetricProjectPath</span><span class=p>(</span><span class=nx>projectID</span><span class=p>),</span>	<span class=nx>TimeSeries</span><span class=p>:</span> <span class=p>[]</span><span class=o>*</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>TimeSeries</span><span class=p>{</span>		<span class=p>{</span>			<span class=nx>Metric</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>metricpb</span><span class=p>.</span><span class=nx>Metric</span><span class=p>{</span>				<span class=nx>Type</span><span class=p>:</span>   <span class=nx>customMetricType</span><span class=p>,</span>				<span class=nx>Labels</span><span class=p>:</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;instance_id&#34;</span><span class=p>:</span> <span class=nx>sourceID</span><span class=p>},</span>			<span class=p>},</span>			<span class=nx>Resource</span><span class=p>:</span> <span class=o>&amp;</span><span class=nx>monitoredrespb</span><span class=p>.</span><span class=nx>MonitoredResource</span><span class=p>{</span>				<span class=nx>Type</span><span class=p>:</span>   <span class=s>&#34;global&#34;</span><span class=p>,</span>				<span class=nx>Labels</span><span class=p>:</span> <span class=kd>map</span><span class=p>[</span><span class=kt>string</span><span class=p>]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;project_id&#34;</span><span class=p>:</span> <span class=nx>projectID</span><span class=p>},</span>			<span class=p>},</span>			<span class=nx>Points</span><span class=p>:</span> <span class=p>[]</span><span class=o>*</span><span class=nx>monitoringpb</span><span class=p>.</span><span class=nx>Point</span><span class=p>{</span><span class=nx>dataPoint</span><span class=p>},</span>		<span class=p>},</span>	<span class=p>},}</span>
+</code></pre></div><p>Once the payload is prepared, the producer can send it to StackDriver API using a simple command</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>monitorClient</span><span class=p>.</span><span class=nf>CreateTimeSeries</span><span class=p>(</span><span class=nx>appContext</span><span class=p>,</span> <span class=nx>tsRequest</span><span class=p>);</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>	<span class=nx>log</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;Failed to write time series data: %v&#34;</span><span class=p>,</span> <span class=nx>err</span><span class=p>)}</span>
+</code></pre></div><p>The complete sample of code for the producer along with Dockerfile to build and publish into your Kubernetes cluster is available in this GitHub <a href=https://github.com/mchmarny/custom-metrics>repository</a>.</p>
+<h2 id=monitoring-dashboard>Monitoring (Dashboard)</h2>
+<p>The quickest way to inspect your newly submitted metrics is the StackDriver dashboard. Simply add new chart using the “Custom Metrics” resource type.</p>
+<p><img src=/images/0____J7wbYq2TfuTf6ld. alt></p>
+<p>Once saved this custom metrics appear as a chart. If you have not chosen to aggregate the metric data, each source will be represented individually.</p>
+<p><img src=/images/0__UXkmv3PVYfQCA5CW. alt></p>
+<h2 id=incident-management>Incident Management</h2>
+<p>Besides generating nice charts, the StackDriver data is also actionable. You can create <a href=https://cloud.google.com/monitoring/alerts/>notification policy</a> with number of common incident management <a href=https://cloud.google.com/monitoring/support/notification-options>target options</a> (e.g. PagerDuty, SMS, or Slack) as well as any publically accessible Webhook.</p>
+<p><img src=/images/0__74YEsQoq6MT__Osic. alt></p>
+<p>Simply define a conditions that identify an unhealthy state for a resource or a group of resources, (in our case the custom metric), and create/define notification target which will be notified to let you know when the resource is unhealthy.</p>
+<p>The one notification target I “enjoy” the most is the <a href=https://cloud.google.com/console-app/>Cloud Console Mobile App</a> which is available for both Android and iOS. Using the mobile app you can monitor your GCP Console resources and Stackdriver information.</p>
+<p>You can find the <a href=https://github.com/mchmarny/custom-metrics>source code</a> and how to for this post on GitHub.</p>
+</div>
+<div class=post-footer>
+<div class=info>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div><footer class="footer footer--base">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></body>
+</html>

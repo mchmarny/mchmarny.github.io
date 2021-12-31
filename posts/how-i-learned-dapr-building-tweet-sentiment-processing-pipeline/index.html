@@ -1,0 +1,159 @@
+<!doctype html><html dir=ltr lang=en data-theme=dark><head>
+<title>
+Mark Chmarny
+|
+How I learned Dapr building tweet sentiment processing pipeline
+</title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="
+      few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
+
+
+    ">
+<link rel=stylesheet href=/css/main.min.572e5d22a390a981698b5def60302e86c9be929e5f6b0d4df3a4670429bb4f51.css integrity="sha256-Vy5dIqOQqYFpi13vYDAuhsm+kp5faw1N86RnBCm7T1E=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/custom.min.59c9cafff576ceb7f4d77dbd930858fe4bb329e64af97cd63e84077a2efd86f2.css integrity="sha256-WcnK//V2zrf01329kwhY/kuzKeZK+XzWPoQHei79hvI=" crossorigin=anonymous media=screen>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel=preconnect href=https://fonts.googleapis.com>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
+<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
+<link rel=canonical href=https://blog.chmarny.com/posts/how-i-learned-dapr-building-tweet-sentiment-processing-pipeline/>
+<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
+<meta name=twitter:title content="How I learned Dapr building tweet sentiment processing pipeline">
+<meta name=twitter:description content="I recently joined the Office of CTO in Azure at Microsoft and wanted to ramp up on one of the open source projects the team has built there called Dapr. Dapr describes itself as:
+ A portable, event-driven runtime that makes it easy for developers to build resilient, microservice stateless and stateful applications that run on the cloud and edge and embraces the diversity of languages and developer frameworks.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How I learned Dapr building tweet sentiment processing pipeline","headline":"How I learned Dapr building tweet sentiment processing pipeline","alternativeHeadline":"","description":"
+      
+        I recently joined the Office of CTO in Azure at Microsoft and wanted to ramp up on one of the open source projects the team has built there called Dapr. Dapr describes itself as:\n A portable, event-driven runtime that makes it easy for developers to build resilient, microservice stateless and stateful applications that run on the cloud and edge and embraces the diversity of languages and developer frameworks.
+
+
+      
+
+
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/how-i-learned-dapr-building-tweet-sentiment-processing-pipeline\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2020","dateCreated":"2020-05-10T00:05:16.79Z","datePublished":"2020-05-10T00:05:16.79Z","dateModified":"2020-05-10T00:05:16.79Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/how-i-learned-dapr-building-tweet-sentiment-processing-pipeline\/","wordCount":"384","genre":[],"keywords":[]}</script>
+</head>
+<body>
+<header><div class="page-top
+.">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<nav>
+<ul class=nav__list id=navMenu>
+<div class=nav__links>
+<li>
+<a href=/ title>Home</a>
+</li>
+<li>
+<a href=/posts/ title>Posts</a>
+</li>
+<li>
+<a href=/about/ title>About</a>
+</li>
+</div>
+<ul>
+<li>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</ul>
+</nav>
+</div>
+</header>
+<div class=wrapper>
+<aside><div class="sidebar
+.">
+<div class=sidebar__content>
+<div class=logo-title>
+<div class=title>
+<img src=/images/profile.png alt="profile picture">
+<h3 title><a href=/>Mark Chmarny</a></h3>
+<div class=description>
+<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
+</div>
+</div>
+</div>
+<ul class=social-links>
+<li>
+<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
+<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div><footer class="footer footer--sidebar">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></div>
+</aside>
+<main>
+<div class=autopagerize_page_element>
+<div class=content>
+<div class="post
+.">
+<div class=post-content>
+<div class=post-title>
+<h1>How I learned Dapr building tweet sentiment processing pipeline</h1>
+</div><p>I recently joined the Office of CTO in Azure at Microsoft and wanted to ramp up on one of the open source projects the team has built there called Dapr. Dapr <a href=https://dapr.io/>describes itself</a> as:</p>
+<blockquote>
+<p>A portable, event-driven runtime that makes it easy for developers to build resilient, microservice stateless and stateful applications that run on the cloud and edge and embraces the diversity of languages and developer frameworks.</p>
+</blockquote>
+<p>I learn technology best by using it, so I decided to build a simple tweet sentiment processing pipeline and see how <em>easy</em> and portable it <em>really</em> is. The resulting project with source code, which you can run both locally and on Kubernetes, is available <a href=https://github.com/mchmarny/dapr-pipeline>here</a>.</p>
+<p><img src=/images/1__d5nC0J0S8bnWvnSUq2t__fA.png alt></p>
+<p>A few takeaways from my experience:</p>
+<ul>
+<li>Dapr was easy to start with, thanks mainly to the very <a href=https://github.com/dapr/docs>thorough documentation</a> and its dead simple CLI. The local development experience in Dapr also felt natural. I was able to use my existing skills and get something going within 10–15 minutes.</li>
+<li>I did like that Dapr didn’t have any “invasive” libraries or required SDKs. There are client libraries in most languages, but its API is well structured and has feature parity in both HTTP and gRPC. I, actually, ended up writing my own HTTP client (<a href=https://github.com/mchmarny/godapr>godapr</a>), just to get a better “feel” for the API.</li>
+<li>The opt-in abstractions for state and pub/sub enable easy portability. I used Redis for both during local development and then swapped for Azure Storage Table and Azure Service Bus when deploying to Kubernetes without any code changes.</li>
+<li>The growing list of <a href=https://github.com/dapr/docs/tree/master/concepts/bindings#supported-bindings-and-specs>bindings</a> allow developers to quickly integrate backing services with minimal effort. Everything from generic ones like <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/kafka.md>Kafka</a> or <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/mqtt.md>MQTT</a> to Cloud-provider specific ones like <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/dynamodb.md>DynamoDB</a> or <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/s3.md>S3</a> for AWS, <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/gcppubsub.md>Cloud Pub/Sub</a> and <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/gcpbucket.md>GCS</a> for GCP, or <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/eventgrid.md>EventGrid</a> and <a href=https://github.com/dapr/docs/blob/master/reference/specs/bindings/eventhubs.md>EventHubs</a> for Azure. Building these extensions is pretty easy too. I contributed the Twitter input binding, which went out in the recent Dapr v0.7 release.</li>
+<li>When building apps based on multiple microservices like my pipeline, Dapr provides a consistent service discovery and invocation mechanism, whether locally or on Kubernetes.</li>
+</ul>
+<p>Dapr seems to strike the right balance between helping developers with primitives, like persisting state or eventing though pub/sub, without being too overbearing.</p>
+<p><img src=/images/1__DfulAF3I2MdE0AYo__m04Xw.png alt></p>
+<p>I look forward to working on Dapr, contributing to the project, and yes, developing with on Dapr myself.</p>
+</div>
+<div class=post-footer>
+<div class=info>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div><footer class="footer footer--base">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer>
+<script type=text/javascript src=/js/medium-zoom.min.71100d84fab0ad794b8399a66ac810700cc78d703f715dc10af4d7ba7b761362.js integrity="sha256-cRANhPqwrXlLg5mmasgQcAzHjXA/cV3BCvTXunt2E2I=" crossorigin=anonymous></script></body>
+</html>
