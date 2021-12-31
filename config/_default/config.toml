@@ -1,0 +1,23 @@
+baseURL = "https://blog.chmarny.com"
+languageCode = "en"
+DefaultContentLanguage = "en"
+title = "Mark Chmarny Blog"
+theme = "anatole"
+summarylength = 40
+enableEmoji = true
+enableRobotsTXT = true
+
+# Syntax highlighting
+pygmentsUseClasses = true   
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+        unsafe=true
+
+[taxonomies]
+    category = "categories"
+    series = "series"
+    tag = "tags"
