@@ -2,7 +2,7 @@
 <title>
 Mark Chmarny
 |
-How to debug container image content
+Knative - Serverless on Your Own Terms
 </title>
 <meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name=description content="
@@ -21,23 +21,22 @@ How to debug container image content
 <link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
 <link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
-<link rel=canonical href=https://blog.chmarny.com/posts/how-to-debug-container-image-content/>
+<link rel=canonical href=https://blog.chmarny.com/posts/knative-serverless-on-your-own-terms/>
 <script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
 <script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
-<meta name=twitter:title content="How to debug container image content">
-<meta name=twitter:description content="When dealing with file permissions in a non-root image or building apps that include static content (like css or templates), I sometime get an error resulting from the final image content mismatch with my expectations.
-Most of the time the errors are pretty obvious, simple fix and rebuild will do.">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How to debug container image content","headline":"How to debug container image content","alternativeHeadline":"","description":"
+<meta name=twitter:title content="Knative - Serverless on Your Own Terms">
+<meta name=twitter:description content="I had a chance to speak at the Cloud Conf 2019 in Turin, Italy. The conference has double its audience from last year, had a spectacular venue, and large selection of topics. I spoke in the #serverless track on using Knative as a means to serverless where you want it and on your own terms.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Knative - Serverless on Your Own Terms","headline":"Knative - Serverless on Your Own Terms","alternativeHeadline":"","description":"
       
-        When dealing with file permissions in a non-root image or building apps that include static content (like css or templates), I sometime get an error resulting from the final image content mismatch with my expectations.\nMost of the time the errors are pretty obvious, simple fix and rebuild will do.
+        I had a chance to speak at the Cloud Conf 2019 in Turin, Italy. The conference has double its audience from last year, had a spectacular venue, and large selection of topics. I spoke in the #serverless track on using Knative as a means to serverless where you want it and on your own terms.
 
 
       
 
 
-    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/how-to-debug-container-image-content\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2019","dateCreated":"2019-08-27T22:20:44.57Z","datePublished":"2019-08-27T22:20:44.57Z","dateModified":"2019-08-27T22:20:44.57Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/how-to-debug-container-image-content\/","wordCount":"228","genre":["howto","oss","container"],"keywords":[]}</script>
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/knative-serverless-on-your-own-terms\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2019","dateCreated":"2019-03-29T02:42:02.50Z","datePublished":"2019-03-29T02:42:02.50Z","dateModified":"2019-03-29T02:42:02.50Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/knative-serverless-on-your-own-terms\/","wordCount":"326","genre":["serverless","oss","dev"],"keywords":[]}</script>
 </head>
 <body>
 <header><div class="page-top
@@ -123,33 +122,30 @@ Most of the time the errors are pretty obvious, simple fix and rebuild will do."
 <div class="post
 .">
 <div class=post-content>
-<img class=post-thumbnail src=/images/container.png alt="Thumbnail image">
+<img class=post-thumbnail src=/images/turin.png alt="Thumbnail image">
 <div class=post-title>
-<h1>How to debug container image content</h1>
-</div><p>When dealing with file permissions in a non-root image or building apps that include static content (like css or templates), I sometime get an error resulting from the final image content mismatch with my expectations.</p>
-<p>Most of the time the errors are pretty obvious, simple fix and rebuild will do. Sometimes though, you want to take a look into the image and understand what the actual layout looks like in there.</p>
-<blockquote>
-<p>I’m sure there is a few valid ways of doing this, here are the simplest steps I found to be consistently reliable for me</p>
-</blockquote>
-<p>Let&rsquo;s assume I build my app (myapp) locally using this command:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>docker build -t myapp .
-</code></pre></div><p>To start, I first need to save the image into an archive:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>docker save -o myapp.tar myapp
-</code></pre></div><p>Now I can list the archive layers by piping the image manifest to some pretty json tool like jQuery:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>tar xf myapp.tar -O manifest.json <span class=p>|</span> jq <span class=s2>&#34;.&#34;</span>
-</code></pre></div><p><img src=/images/1__IKk1Jxj8kxkCVcvOoTHiKw.png alt></p>
-<p>To peek into a specific layer, I can output its content using one of the layer’s ID. (Unless you are doing something creative, the content of your app will be the last item in &ldquo;Layers&rdquo;):</p>
-<p>tar xf myapp.tar -O 093015edb4b7f6f64a3bcb3a4646146d0476fe59b4f47924700b66b779cb7330/layer.tar | tar tv</p>
-<p><img src=/images/1__EHFf8MYNV7BnGFT7ShAmyQ.png alt></p>
-<blockquote>
-<p>Don’t @ me for .DS_Store files or file permissions in the above image ;)</p>
-</blockquote>
-<p>Hope this helps.</p>
-<p>PS. Massive thanks to <a href=https://twitter.com/mattomata>mattomata@</a> for clarifying some of these things for me.</p>
+<h1>Knative - Serverless on Your Own Terms</h1>
+</div><p>I had a chance to speak at the Cloud Conf 2019 in Turin, Italy. The conference has double its audience from last year, had a spectacular venue, and large selection of topics. I spoke in the #serverless track on using Knative as a means to serverless where you want it and on your own terms. Stressing the importance of portability and demonstrating the key features that the Kantive community has already delivered.</p>
+<p><img src=/images/1__iZuNv1AgYlcywzs6kOudfA.png alt></p>
+<h2 id=serving>Serving</h2>
+<p><a href=https://github.com/knative/serving>Knative Serving</a> provides higher level abstraction for Kubernetes and, by extension, the underlying infrastructure, so that the developers can focus on writing code.</p>
+<p><img src=/images/1__nqNMpWexualc22ONruhAZg.png alt></p>
+<p>It exposes easy to reason about object model and enables seamless autoscaling based on requests. It also integrates networking and service mesh automatically so devs can gradually rollout new revisions or label some services as internal only so that they can’t be access directly in a microservice based solution.</p>
+<h2 id=build>Build</h2>
+<p><a href=https://github.com/knative/build>Knative Build</a> provides configurable and flexible approach to building source code into containers.</p>
+<p><img src=/images/1__tkWzPLKKWoalBC22yEKIgw.png alt></p>
+<p>It can leverage Dockerfiles or built templates in case of building directly from sources without the developers needing to worry about cross-compiling or even installing the build tools locally. And because the build happens on cluster, it support artifact caching for faster builds</p>
+<h2 id=eventing>Eventing</h2>
+<p>Knative Universal provides a subscription, delivery, and management framework for events both on and off the cluster.</p>
+<p><img src=/images/1__lNcuNh4gCOKgbwH__VPEViw.png alt></p>
+<p>It allows developer to create a declarative binding between event producers and event consuming services. And, because it integrates with serving, it’s scalable from just a few events to live event streams. And it’s flexible, so you can build simple trigger to one service binding or custom event pipelines to connect with your existing systems.</p>
+<h2 id=serverless-on-your-own-terms>Serverless on your own terms</h2>
+<p>So, yes, there is Kubernetes, yes there are containers, and yes, there are even servers underneath it all… but you do you, developer. You write code and the Knative operators do their job well, you don’t have care about none of it… until you want to.</p>
+<p><img src=/images/1__fOISrYHY5lzYWflggE5biw.png alt></p>
 </div>
 <div class=post-footer>
 <div class=info>
-<span class=separator><a class=category href=/categories/howto/>howto</a><a class=category href=/categories/oss/>oss</a><a class=category href=/categories/container/>container</a></span>
+<span class=separator><a class=category href=/categories/serverless/>serverless</a><a class=category href=/categories/oss/>oss</a><a class=category href=/categories/dev/>dev</a></span>
 </div>
 </div>
 </div>

@@ -27,10 +27,10 @@ How to run containerized workloads in GCE VM
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
 <meta name=twitter:title content="How to run containerized workloads in GCE VM">
-<meta name=twitter:description content="While the idea of a serverless platform and long running workloads does seem somewhat “unnatural” at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.">
+<meta name=twitter:description content="While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.">
 <script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How to run containerized workloads in GCE VM","headline":"How to run containerized workloads in GCE VM","alternativeHeadline":"","description":"
       
-        While the idea of a serverless platform and long running workloads does seem somewhat “unnatural” at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.
+        While the idea of a serverless platform and long running workloads does seem somewhat \u0026ldquo;unnatural\u0026rdquo; at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.
 
 
       
@@ -125,7 +125,7 @@ How to run containerized workloads in GCE VM
 <img class=post-thumbnail src=/images/gcp.png alt="Thumbnail image">
 <div class=post-title>
 <h1>How to run containerized workloads in GCE VM</h1>
-</div><p>While the idea of a serverless platform and long running workloads does seem somewhat “unnatural” at first, smart people are already working on that (looking at you <a href=http://twitter.com/KnativeProject>@Knative</a> community). In the meantime, a simple approach is sometimes all you may need.</p>
+</div><p>While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you <a href=http://twitter.com/KnativeProject>@Knative</a> community). In the meantime, a simple approach is sometimes all you may need.</p>
 <p>In this post I will illustrating how to use Google Compute Engine (GCE) container execution option to run variable duration jobs. This approach supports custom VMs, GPU/TPU accelerators and VPC networks… so may be handy alternative to other compute options on GCP. I’ll also demo how to auto-terminate the created VM on container completion, so you won’t have to pay for idle VM time.</p>
 <p>Finally, in this example I’ll parses small gzip file from Google Cloud Storage (GCS), but since this approach is not limited by client timeouts you can use it to do pretty much anything… transformations on bigger files, lightweight ETL, or media format encoding. You can even combine it with <a href=https://cloud.google.com/appengine/docs/standard/python/taskqueue/>GCP Task Queue</a> for more complex pipelines.</p>
 <h2 id=pre-requirements>Pre-requirements</h2>
@@ -203,7 +203,7 @@ go mod vendor
 </span><span class=s2>  **jsonPayload.message:\\&#34;</span><span class=se>\[</span>LRJ<span class=se>\]\\</span><span class=s2>&#34;&#34;</span>** <span class=se>\\</span>  
   --order<span class=o>=</span><span class=s2>&#34;asc&#34;</span>
 </code></pre></div><blockquote>
-<p>Note, this command will print only the logs that are output by the user code in the container (the logger inside prefixes all log entries with “[LRJ]”). You can see the complete list of log entries by removing the_<code>_jsonPayload.message:"[LRJ]"_</code> filter.</p>
+<p>Note, this command will print only the logs that are output by the user code in the container (the logger inside prefixes all log entries with &ldquo;[LRJ]"). You can see the complete list of log entries by removing the_<code>_jsonPayload.message:"[LRJ]"_</code> filter.</p>
 </blockquote>
 <p>After the container exists, the VM will automatically shutdown but the logs should still be still available in Stackdriver for forensic analyses.</p>
 <h2 id=conclusion>Conclusion</h2>

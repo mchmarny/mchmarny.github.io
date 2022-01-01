@@ -27,17 +27,16 @@ Smaller, single-purpose, atomic functions core ingredient of tomorrow’s comput
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
 <meta name=twitter:title content="Smaller, single-purpose, atomic functions core ingredient of tomorrow’s computing">
-<meta name=twitter:description content="Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed.
-Much coverage has been dedicated to the newly introduced services; I won’t bore you with that.">
+<meta name=twitter:description content="Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed. Much coverage has been dedicated to the newly introduced services; I won’t bore you with that.">
 <script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Smaller, single-purpose, atomic functions core ingredient of tomorrow’s computing","headline":"Smaller, single-purpose, atomic functions core ingredient of tomorrow’s computing","alternativeHeadline":"","description":"
       
-        Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed.\nMuch coverage has been dedicated to the newly introduced services; I won’t bore you with that.
+        Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed. Much coverage has been dedicated to the newly introduced services; I won’t bore you with that.
 
 
       
 
 
-    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/smaller-single-purpose-atomic-functions-core-ingredient-of-tomorrow-computing\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2016","dateCreated":"2016-04-03T00:40:14.89Z","datePublished":"2016-04-03T00:40:14.89Z","dateModified":"2016-04-03T00:40:14.89Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/smaller-single-purpose-atomic-functions-core-ingredient-of-tomorrow-computing\/","wordCount":"344","genre":["platform","dev","cloud","opinion"],"keywords":[]}</script>
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/smaller-single-purpose-atomic-functions-core-ingredient-of-tomorrow-computing\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2016","dateCreated":"2016-02-22T00:40:14.89Z","datePublished":"2016-02-22T00:40:14.89Z","dateModified":"2016-02-22T00:40:14.89Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/smaller-single-purpose-atomic-functions-core-ingredient-of-tomorrow-computing\/","wordCount":"344","genre":["platform","dev","cloud","opinion"],"keywords":[]}</script>
 </head>
 <body>
 <header><div class="page-top
@@ -125,14 +124,13 @@ Much coverage has been dedicated to the newly introduced services; I won’t bor
 <div class=post-content>
 <div class=post-title>
 <h1>Smaller, single-purpose, atomic functions core ingredient of tomorrow’s computing</h1>
-</div><p><img src=/images/0__9zzjADwBjmYqiTnp.png alt></p>
-<p>Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed.</p>
-<p>Much coverage has been dedicated to the newly introduced services; I won’t bore you with that. Instead, I wanted to share with you a few higher-level thoughts I captured at the event.</p>
+</div><p>Last week I had a chance to attend the 3rd AWS re:invent conference in Vegas. I’m not a big fan of that city myself, but, as in previous years, re:invent has not disappointed. Much coverage has been dedicated to the newly introduced services; I won’t bore you with that. Instead, I wanted to share with you a few higher-level thoughts I captured at the event.</p>
 <blockquote>
 <p>AWS Lambda and the fundamental shift away from monolithic apps to increasingly smaller and (more?) atomic services that it represents.</p>
 </blockquote>
 <p>I fully expected the AWS Container as a Service announcement based on their partnership with Docker, the release of AWS Lambda has actually surprised me. At its most basic, it is a compute service, which simply executes code. Yes, nothing-new there. Lambda is also able to respond to event triggers, also nothing special there… Xively was able to do that in IoT context for years.</p>
-<p>The part that sets Lambda apart is its ability to automatically manage compute resources; making this “simple function execution engine” into an independent components of powerful event processing pipeline with scale only limited by the amount of money you are willing to spend.</p>
+<img align=left src=/images/0__9zzjADwBjmYqiTnp.png style="margin:0 20px 1px 0">
+<p>The part that sets Lambda apart is its ability to automatically manage compute resources; making this &ldquo;simple function execution engine&rdquo; into an independent components of powerful event processing pipeline with scale only limited by the amount of money you are willing to spend.</p>
 <p>While we are on the subject of money, Lambda charge model is exactly what we came to expect from AWS: pay for what you use: $0.20 per million requests with the first million being free. At larger volumes its $0.0000002/request plus the compute time metered in increments of 100ms! That means that while many of us probably could build an event processing pipeline using some combination of Kafka, AKKA, Flume and Storm, instrumenting comparably elastic service capable to respond to the unpredictable usage patterns at Lambda price-point would actually be pretty hard.</p>
 <p>Yes, Lambda itself is a proprietary service. While some will use that fact as a show-stopping argument, it is hard to deny that Lambda represents a fundamental shift in service delivery. It decomposes monolithic processes into their lowest programmable level: function.</p>
 <blockquote>
