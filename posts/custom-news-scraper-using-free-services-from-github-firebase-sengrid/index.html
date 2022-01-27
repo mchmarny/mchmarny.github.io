@@ -4,7 +4,7 @@ Mark Chmarny
 |
 Custom news scraper using free services from GitHub, Firebase, and Sengrid
 </title>
-<meta charset=utf-8><meta name=generator content="Hugo 0.91.2"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset=utf-8><meta name=generator content="Hugo 0.92.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name=description content="
       few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
 
@@ -151,9 +151,9 @@ Custom news scraper using free services from GitHub, Firebase, and Sengrid
 </span><span class=w>    </span><span class=nt>query</span><span class=p>:</span><span class=w> </span><span class=l>kubernetes OR devops OR ci/cd  </span><span class=w>
 </span><span class=w>    </span><span class=nt>to</span><span class=p>:</span><span class=w> </span><span class=l>you@your-domain.com  </span><span class=w>
 </span><span class=w>    </span><span class=nt>subject</span><span class=p>:</span><span class=w> </span><span class=l>Tweets about k8s, devops, or ci/cd  </span><span class=w>
-</span><span class=w>    </span><span class=nt>email-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.EMAIL\_CONFIG }}  </span><span class=w>
-</span><span class=w>    </span><span class=nt>state-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.FIRESTORE\_CONFIG }}  </span><span class=w>
-</span><span class=w>    </span><span class=nt>twitter-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.TWITTER\_CONFIG }}  </span><span class=w>
+</span><span class=w>    </span><span class=nt>email-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.EMAIL_CONFIG }}  </span><span class=w>
+</span><span class=w>    </span><span class=nt>state-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.FIRESTORE_CONFIG }}  </span><span class=w>
+</span><span class=w>    </span><span class=nt>twitter-config</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.TWITTER_CONFIG }}  </span><span class=w>
 </span><span class=w>    </span><span class=nt>lang</span><span class=p>:</span><span class=w> </span><span class=l>en</span><span class=w> </span><span class=c># language (en == English)  </span><span class=w>
 </span><span class=w>    </span><span class=nt>latest</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w> </span><span class=c># most recent popular  </span><span class=w>
 </span><span class=w>    </span><span class=nt>links</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w> </span><span class=c># must have links  </span><span class=w>
@@ -173,10 +173,10 @@ Custom news scraper using free services from GitHub, Firebase, and Sengrid
 </span><span class=w>  </span><span class=nt>repository_dispatch</span><span class=p>:</span><span class=w>  
 </span><span class=w>    </span><span class=nt>types</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=l>search]</span><span class=w>
 </span></code></pre></div><p>The full example of this workflow is available <a href=https://github.com/mchmarny/gaw/blob/main/.github/workflows/dispatch-on-topic.yaml>here</a>. When configured, the specific topic (e.g. golang) for which you want to search can be defined in a command line:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>curl -H <span class=s2>&#34;Accept: application/vnd.github.v3+json&#34;</span> <span class=se>\\</span>  
-     -H <span class=s2>&#34;Authorization: token </span><span class=si>${</span><span class=nv>GITHUB</span><span class=se>\_</span><span class=nv>TOKEN</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\\</span>  
-     https://api.github.com/repos/&lt;username&gt;/&lt;repo&gt;/dispatches <span class=se>\\</span>  
-     -d <span class=s1>&#39;{ &#34;event\_type&#34;: &#34;search&#34;, &#34;client\_payload&#34;: { &#34;topic&#34;:&#34;golang&#34; }}&#39;</span>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>curl -H <span class=s2>&#34;Accept: application/vnd.github.v3+json&#34;</span> <span class=se>\
+</span><span class=se></span>     -H <span class=s2>&#34;Authorization: token </span><span class=si>${</span><span class=nv>GITHUB_TOKEN</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span><span class=se></span>     https://api.github.com/repos/&lt;username&gt;/&lt;repo&gt;/dispatches <span class=se>\
+</span><span class=se></span>     -d <span class=s1>&#39;{ &#34;event_type&#34;: &#34;search&#34;, &#34;client_payload&#34;: { &#34;topic&#34;:&#34;golang&#34; }}&#39;</span>
 </code></pre></div><p>To execute the dispatches using HTTP API you will need GitHub personal access token. The instructions how to create one are located <a href=https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>here</a>.</p>
 <h2 id=email-notifications>Email Notifications</h2>
 <p>Whether you executed the workflow on schedule or using the HTTP dispatch, the delivered email looks something like this:</p>
