@@ -2,9 +2,9 @@
 <title>
 Mark Chmarny
 |
-Multi Region REST Service on GCP with IODC-secured Image Publishing from Github Action
+Multi Region REST Service on GCP using GitHub Template
 </title>
-<meta charset=utf-8><meta name=generator content="Hugo 0.92.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset=utf-8><meta name=generator content="Hugo 0.92.1"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name=description content="
       few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
 
@@ -21,7 +21,7 @@ Multi Region REST Service on GCP with IODC-secured Image Publishing from Github 
 <link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
 <link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
-<link rel=canonical href=https://blog.chmarny.com/posts/multi-region-rest-service-on-gcp-with-oidc-image-pub-from-github-action/>
+<link rel=canonical href=https://blog.chmarny.com/posts/multi-region-rest-service-on-gcp/>
 <script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin=anonymous></script>
@@ -29,9 +29,9 @@ Multi Region REST Service on GCP with IODC-secured Image Publishing from Github 
 <script type=text/javascript src=/js/search.min.52b0061f5a72cae7c93cca169782e5ce1a32c5e2634913107d5be63e8ab14b3a.js integrity="sha256-UrAGH1pyyufJPMoWl4LlzhoyxeJjSRMQfVvmPoqxSzo=" crossorigin=anonymous></script>
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
-<meta name=twitter:title content="Multi Region REST Service on GCP with IODC-secured Image Publishing from Github Action">
+<meta name=twitter:title content="Multi Region REST Service on GCP using GitHub Template">
 <meta name=twitter:description content="I learn best by doing. And recently, most of the projects I&rsquo;ve been building are either REST or gRPC-base services deployed as container images into Cloud Run on GCP. That means that I increasingly find myself recreating a lot of the same infra and app deployment flows.">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Multi Region REST Service on GCP with IODC-secured Image Publishing from Github Action","headline":"Multi Region REST Service on GCP with IODC-secured Image Publishing from Github Action","alternativeHeadline":"","description":"
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Multi Region REST Service on GCP using GitHub Template","headline":"Multi Region REST Service on GCP using GitHub Template","alternativeHeadline":"","description":"
       
         I learn best by doing. And recently, most of the projects I\u0026rsquo;ve been building are either REST or gRPC-base services deployed as container images into Cloud Run on GCP. That means that I increasingly find myself recreating a lot of the same infra and app deployment flows.
 
@@ -39,7 +39,7 @@ Multi Region REST Service on GCP with IODC-secured Image Publishing from Github 
       
 
 
-    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/multi-region-rest-service-on-gcp-with-oidc-image-pub-from-github-action\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2022","dateCreated":"2022-01-05T15:43:56.00Z","datePublished":"2022-01-05T15:43:56.00Z","dateModified":"2022-01-05T15:43:56.00Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/multi-region-rest-service-on-gcp-with-oidc-image-pub-from-github-action\/","wordCount":"350","genre":["dev"],"keywords":["rest","gcp","gcr","oidc","github","terraform","github"]}</script>
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/multi-region-rest-service-on-gcp\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2022","dateCreated":"2022-01-05T15:43:56.00Z","datePublished":"2022-01-05T15:43:56.00Z","dateModified":"2022-01-05T15:43:56.00Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/multi-region-rest-service-on-gcp\/","wordCount":"354","genre":["dev"],"keywords":["rest","gcp","gcr","oidc","github","terraform","github"]}</script>
 </head>
 <body>
 <header><div class="page-top
@@ -127,9 +127,9 @@ Multi Region REST Service on GCP with IODC-secured Image Publishing from Github 
 <div class="post
 .">
 <div class=post-content>
-<img class=post-thumbnail src=/images/restme-solution.png alt="Thumbnail image">
+<img class=post-thumbnail src=/images/multi-region.png alt="Thumbnail image">
 <div class=post-title>
-<h1>Multi Region REST Service on GCP with IODC-secured Image Publishing from Github Action</h1>
+<h1>Multi Region REST Service on GCP using GitHub Template</h1>
 </div><p>I learn best by doing. And recently, most of the projects I&rsquo;ve been building are either REST or gRPC-base services deployed as container images into Cloud Run on GCP. That means that I increasingly find myself recreating a lot of the same infra and app deployment flows.</p>
 <p>Over time, the stack for these services started getting also more complex. Multi-region deployment in Cloud Run, fronted by Load Balancer with custom domain and SSL cert, throttled by Cloud Armor policies, and pushing images to GCR from GitHub action without the need to provision service account keys.</p>
 <p>So, over the holidays, I&rsquo;ve decided to automate the provisioning of the entire stack in a <a href=https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-template-repository>GitHub template project</a> so I can quickly bootstrap new services, in a more reproducible fashion, and focus on actually writing the code, not tweaking the infra.</p>
@@ -168,7 +168,7 @@ Multi Region REST Service on GCP with IODC-secured Image Publishing from Github 
 <li><strong>[GET] Request info</strong> - client request, headers and environment variables</li>
 <li><strong>[POST] Echo message</strong> - simple echo message</li>
 </ul>
-<p>You can find the prerequisites and deployment instructions in the <a href=https://github.com/mchmarny/restme/blob/main/README.md>repo Readme</a>. I hope you find it as helpful as I do.</p>
+<p>This entire setup is available as a template with prerequisites and deployment instructions <a href=https://github.com/mchmarny/restme/blob/main/README.md>my GitHub repo</a>. I hope you find it as helpful as I do.</p>
 </div>
 <div class=post-footer>
 <div class=info>

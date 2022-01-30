@@ -1,0 +1,280 @@
+<!doctype html><html dir=ltr lang=en data-theme=dark><head>
+<title>
+Mark Chmarny
+|
+Reproducible OpenID connect to GCR for GitHub Actions workflows using Terraform
+</title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.92.1"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="
+      few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
+
+
+    ">
+<link rel=stylesheet href=/css/main.min.179cc2d1e93212b8ec31560509068248e4269f4b648220d1154adb0d5e94aa7d.css integrity="sha256-F5zC0ekyErjsMVYFCQaCSOQmn0tkgiDRFUrbDV6Uqn0=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=/css/custom.min.19a2fcdc016a7ce0da80bb2886bc4c4ec4ca52123451ab44180a7c3b09944842.css integrity="sha256-GaL83AFqfODagLsohrxMTsTKUhI0UatEGAp8OwmUSEI=" crossorigin=anonymous media=screen>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel=preconnect href=https://fonts.googleapis.com>
+<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
+<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
+<link rel=canonical href=https://blog.chmarny.com/posts/reproducible-github-workflow-openid-connect-for-gcp-using-terraform/>
+<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/search.min.52b0061f5a72cae7c93cca169782e5ce1a32c5e2634913107d5be63e8ab14b3a.js integrity="sha256-UrAGH1pyyufJPMoWl4LlzhoyxeJjSRMQfVvmPoqxSzo=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
+<meta name=twitter:title content="Reproducible OpenID connect to GCR for GitHub Actions workflows using Terraform">
+<meta name=twitter:description content="The recently introduced by GitHub support for OpenID Connect (OIDC) tokens in GitHub Actions allows workflows to mint new tokens and then exchange those tokens for short-lived OAuth 2.0 or JWT tokens. These tokens can be used to access and manage Cloud resources.">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Reproducible OpenID connect to GCR for GitHub Actions workflows using Terraform","headline":"Reproducible OpenID connect to GCR for GitHub Actions workflows using Terraform","alternativeHeadline":"","description":"
+      
+        The recently introduced by GitHub support for OpenID Connect (OIDC) tokens in GitHub Actions allows workflows to mint new tokens and then exchange those tokens for short-lived OAuth 2.0 or JWT tokens. These tokens can be used to access and manage Cloud resources.
+
+
+      
+
+
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/reproducible-github-workflow-openid-connect-for-gcp-using-terraform\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2022","dateCreated":"2022-01-29T16:12:38.00Z","datePublished":"2022-01-29T16:12:38.00Z","dateModified":"2022-01-29T16:12:38.00Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/reproducible-github-workflow-openid-connect-for-gcp-using-terraform\/","wordCount":"1104","genre":["dev"],"keywords":["gcp","github","oidc","workflow","terraform"]}</script>
+</head>
+<body>
+<header><div class="page-top
+.">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<nav>
+<ul class=nav__list id=navMenu>
+<div class=nav__links>
+<li>
+<a href=/ title>Home</a>
+</li>
+<li>
+<a href=/posts/ title>Posts</a>
+</li>
+<li>
+<a href=/search/ title>Search</a>
+</li>
+<li>
+<a href=/about/ title>About</a>
+</li>
+</div>
+<ul>
+<li>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</ul>
+</nav>
+</div>
+</header>
+<div class=wrapper>
+<aside><div class="sidebar
+.">
+<div class=sidebar__content>
+<div class=logo-title>
+<div class=title>
+<img src=/images/profile.png alt="profile picture">
+<h3 title><a href=/>Mark Chmarny</a></h3>
+<div class=description>
+<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
+</div>
+</div>
+</div>
+<ul class=social-links>
+<li>
+<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
+<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://speakerdeck.com/mchmarny rel=me aria-label="Speaker Deck" title="Speaker Deck">
+<i class="fas fa-file-powerpoint fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div><footer class="footer footer--sidebar">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer></div>
+</aside>
+<main>
+<div class=autopagerize_page_element>
+<div class=content>
+<div class="post
+.">
+<div class=post-content>
+<img class=post-thumbnail src=/images/openid-connect-github.png alt="Thumbnail image">
+<div class=post-title>
+<h1>Reproducible OpenID connect to GCR for GitHub Actions workflows using Terraform</h1>
+</div><p>The recently introduced by GitHub support for <a href=https://openid.net/connect/>OpenID Connect</a> (OIDC) tokens in <a href=https://github.com/features/actions>GitHub Actions</a> allows workflows to mint new tokens and then exchange those tokens for short-lived OAuth 2.0 or JWT tokens. These tokens can be used to access and manage Cloud resources. This is all done without the need to store the traditional long-lived service account keys in a form of GitHub secrets.</p>
+<p>On <a href=https://cloud.google.com/>Google Cloud Platform</a> (GCP) this process uses <a href=https://cloud.google.com/iam/docs/configuring-workload-identity-federation#github-actions>Workload Identity Federation</a> and enable your GitHub Actions a fine-grained access scoping using attribute mappings between the OIDC token, which by default, automatically expires one hour after it was created, to <a href=https://cloud.google.com/iam/docs/impersonating-service-accounts>impersonate a GCP service account</a> and access resources on Google Cloud using the designated GCP permissions.</p>
+<h2 id=oidc-complexity>OIDC Complexity</h2>
+<p>The problem is that setting up identity federation for GitHub Actions in any of the Cloud Service Providers (CSP) requires executing number of CLI commands, each with endless number of flags to implement the required attribute mappings between the provider access permissions and GitHub repository or username.</p>
+<p>In this post I&rsquo;ll outline a reproducible process of setting up Identity Federation in GCP for one of the most common use-cases in GitHub Actions, building and publishing container images.</p>
+<h2 id=reproducible-setup>Reproducible Setup</h2>
+<p>Each execution of this process applies to a single GCP project and GitHub repository combination. To make this setup reproducible we&rsquo;re going to use Terraform. By providing different variables during execution, we’ll be able to apply that same Terraform configuration to any other GitHub repo and GCP project combination.</p>
+<h3 id=prerequisites>Prerequisites</h3>
+<p>The prerequisites to executing this setup include:</p>
+<ul>
+<li><a href=https://www.terraform.io/downloads>Terraform CLI</a></li>
+<li><a href=https://cloud.google.com/resource-manager/docs/creating-managing-projects>GCP Project</a></li>
+<li><a href=https://cloud.google.com/sdk/gcloud>gcloud CLI</a></li>
+</ul>
+<blockquote>
+<p>Good how-to on using terraform with GCP is located <a href=https://cloud.google.com/community/tutorials/getting-started-on-gcp-with-terraform>here</a>.</p>
+</blockquote>
+<h3 id=one-time-setup>One-time Setup</h3>
+<p>To acquire the reproducible Github Workflow OpenID Connect setup for GCP you can either clone the Repo using SSH:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>git clone git@github.com:mchmarny/oidc-for-gcp-using-terraform.git
+</code></pre></div><p>or using HTTP:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>git clone https://github.com/mchmarny/oidc-for-gcp-using-terraform.git
+</code></pre></div><p>Once you&rsquo;ve cloned the setup repo, navigate inside of that cloned directory and initialize Terraform</p>
+<blockquote>
+<p>Make sure to authenticate to GCP using <code>gcloud auth application-default login</code> if you haven&rsquo;t done it already.</p>
+</blockquote>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>terraform init
+</code></pre></div><blockquote>
+<p>Note, this flow uses the default, local terraform state. Make sure you do not check the state files into your source control (see <code>.gitignore</code>), or consider using a persistent state provider like GCS.</p>
+</blockquote>
+<h3 id=executing-configuration>Executing Configuration</h3>
+<p>To configure Github Workflow OpenID Connect setup for GCP apply the cloned configuration:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>terraform apply
+</code></pre></div><p>When promoted, provide the 2 required variables:</p>
+<ul>
+<li><code>project_id</code> is the GCP project ID (not the name) which you want to target from your GitHub Action.</li>
+<li><code>git_repo</code> is the username/repo combination in which you GitHub Actions will be executing</li>
+</ul>
+<h2 id=what-included>What Included</h2>
+<p>You can review each one of the <code>*.tf</code> files for content. When you confirm <code>yes</code> at the final prompt, the main artifacts created by this setup in the GCP project defined by the <code>project_id</code> variable include:</p>
+<ul>
+<li>Enablement of the required GCP APIs
+<ul>
+<li><code>servicecontrol.googleapis.com</code></li>
+<li><code>containerregistry.googleapis.com</code></li>
+<li><code>iam.googleapis.com</code></li>
+<li><code>iamcredentials.googleapis.com</code></li>
+<li><code>servicemanagement.googleapis.com</code></li>
+<li><code>storage-api.googleapis.com</code></li>
+</ul>
+</li>
+<li>Creation of <code>github-actions-user</code> service account which the GitHub Action will impersonate when publishing images into GCR, and binding that account to the two required role:
+<ul>
+<li><code>roles/storage.objectCreator</code></li>
+<li><code>roles/storage.objectViewer</code></li>
+</ul>
+</li>
+<li>Creation of the workload identity pool: <code>github-pool</code>, and GitHub repo-level pool provider: <code>github-provider</code></li>
+<li>Finally, creation of the IAM policy bindings to the service account resources created by GitHub identify for the specific GitHub repository defined by the <code>git_repo</code> variable</li>
+</ul>
+<h2 id=repo-configuration>Repo Configuration</h2>
+<p>The result each execution of the above defined configuration will include 3 GitHub repo configuration properties:</p>
+<ul>
+<li><code>PROJECT_ID</code> which is the project ID in which you setup the workload identity federation</li>
+<li><code>SERVICE_ACCOUNT</code> which is the IAM service account your GitHub Action workflows will use to push images into GCR (e.g. <code>github-action-publisher@&lt;project_id>.iam.gserviceaccount.com</code>)</li>
+<li><code>IDENTITY_PROVIDER</code> which is the workflow identity provider ID you must use lng with the above service account to connect to GCP (e.g. <code>projects/&lt;project_number>/locations/global/workloadIdentityPools/github-pool/providers/github-provider</code>)</li>
+</ul>
+<blockquote>
+<p>Depending on your tolerance, you may be OK using all 3 of these parameters in your GitHub Actions workflow in plain-text. In most cases, however, you will probably create GitHub<a href=https://docs.github.com/en/actions/security-guides/encrypted-secrets>secrets</a> in your repository to inject them into your workflow at runtime.</p>
+</blockquote>
+<h2 id=github-workflow-configuration>GitHub Workflow Configuration</h2>
+<p>With the Workload Identity Federation configured yur workflow can now establish delegated trust relationships to the narrowly scoped set of permissions in GCP. The <a href=https://github.com/google-github-actions/auth>google-github-actions/auth</a> includes many examples using <code>gcloud</code> in your workflow.</p>
+<p>In this post I&rsquo;m going to focus on <a href=https://go.dev/>Go</a>-specific configuration using <a href=https://github.com/google/ko>ko</a>, (a super simple and fast container image builder for Go apps) to build and publish images into <a href=https://cloud.google.com/container-registry>GCR</a>. The full workflow is available <a href=https://github.com/mchmarny/restme/blob/main/.github/workflows/image-on-tag.yaml>here</a>. The key steps include:</p>
+<h3 id=push-job>Push Job</h3>
+<p>First, in order to create OIDC tokens, the GitHub Actions will need additional permissions. In addition to regular <code>content</code> read, the workflow will also <code>id-token</code> write.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>jobs</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>push</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span><span class=nt>runs-on</span><span class=p>:</span><span class=w> </span><span class=l>ubuntu-latest</span><span class=w>
+</span><span class=w>    </span><span class=nt>permissions</span><span class=p>:</span><span class=w>
+</span><span class=w>      </span><span class=nt>contents</span><span class=p>:</span><span class=w> </span><span class=l>read</span><span class=w>
+</span><span class=w>      </span><span class=nt>id-token</span><span class=p>:</span><span class=w> </span><span class=l>write</span><span class=w>
+</span><span class=w>    </span><span class=nt>steps</span><span class=p>:</span><span class=w>
+</span></code></pre></div><h3 id=gcp-authentication>GCP Authentication</h3>
+<p>In order to push images to GCR, the workflow will need to first authenticate to GCP. Google has an action just for that that can be configured to generate OAuth 2.0 Access Token. To do this you will need to set the <code>token_format</code> to <code>access_token</code>. Additionally, this step will use the workload identity provider and service account secrets we configured above:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w>    </span>- <span class=nt>id</span><span class=p>:</span><span class=w> </span><span class=l>auth</span><span class=w>
+</span><span class=w>      </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Get GCP token</span><span class=w>
+</span><span class=w>      </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>google-github-actions/auth@v0.5.0</span><span class=w>
+</span><span class=w>      </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>          </span><span class=nt>token_format</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;access_token&#34;</span><span class=w>
+</span><span class=w>          </span><span class=nt>workload_identity_provider</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.IDENTITY_PROVIDER }}</span><span class=w>
+</span><span class=w>          </span><span class=nt>service_account</span><span class=p>:</span><span class=w> </span><span class=l>${{ secrets.SERVICE_ACCOUNT }}</span><span class=w>
+</span></code></pre></div><h3 id=install-and-login-ko>Install And Login Ko</h3>
+<p>Ko is the fastest way of creating container images in Go without Docker. All we need to do is install it and login to GCR with the access token created by the <code>auth</code> step above:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Install Ko</span><span class=w>
+</span><span class=w>      </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>imjasonh/setup-ko@v0.4</span><span class=w>
+</span><span class=w>      </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>        </span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=l>tip</span><span class=w>
+</span><span class=w>        
+</span><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Login With ko</span><span class=w>
+</span><span class=w>      </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span><span class=sd>        </span><span class=w>        </span><span class=l>ko login gcr.io --username=oauth2accesstoken --password=${{ steps.auth.outputs.access_token }}</span><span class=w>
+</span></code></pre></div><h3 id=publish-image>Publish Image</h3>
+<p>With ko logged in, now you can build and publish the image. A few things to highlight here. <code>ko build</code> (pka <code>publish</code>) will build and publish container images from the given path. The <code>--image-refs</code> flag will output the digest of the published image to the provided file, and the <code>--bare</code> allows us to define the full image URL using the <code>KO_DOCKER_REPO</code> environment variable.</p>
+<p>In addition to this we will set the previously exported <code>RELEASE_VERSION</code> environment variable to both <code>version</code> field in the <code>main.go</code> file and set it as a tag on the image.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Publish Image</span><span class=w>
+</span><span class=w>      </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span><span class=sd>        </span><span class=w>        </span><span class=l>ko build ./cmd/ --image-refs ./image-digest --bare --tags ${{ env.RELEASE_VERSION }},latest</span><span class=w>
+</span><span class=w>      </span><span class=nt>env</span><span class=p>:</span><span class=w>
+</span><span class=w>        </span><span class=nt>KO_DOCKER_REPO</span><span class=p>:</span><span class=w> </span><span class=l>gcr.io/${{ secrets.PROJECT_ID }}/restme</span><span class=w>
+</span><span class=w>        </span><span class=nt>GOFLAGS</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;-ldflags=-X=main.version=${{ env.RELEASE_VERSION }}&#34;</span><span class=w>
+</span></code></pre></div><h3 id=sign-image>Sign Image</h3>
+<p>Once the image is published, we can also sign and verify the published image in GCR using <a href=https://github.com/sigstore/cosign>cosign</a>.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Install Cosign</span><span class=w>
+</span><span class=w>      </span><span class=nt>uses</span><span class=p>:</span><span class=w> </span><span class=l>sigstore/cosign-installer@main</span><span class=w>
+</span><span class=w>      </span><span class=nt>with</span><span class=p>:</span><span class=w>
+</span><span class=w>        </span><span class=nt>cosign-release</span><span class=p>:</span><span class=w> </span><span class=l>v1.4.1</span><span class=w>
+</span></code></pre></div><p>The benefit of combining <code>ko</code> and <code>cosign</code> is that we can use the image digest output into a local file by <code>ko</code> by providing its path using <code>--force</code> flag in the <code>cosign sign</code> command.</p>
+<blockquote>
+<p>With the v<code>1.4</code> release of cosign, you set th <code>COSIGN_EXPERIMENTAL</code> variable to push the data into GCR.</p>
+</blockquote>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=w>    </span>- <span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=l>Sign Image</span><span class=w>
+</span><span class=w>      </span><span class=nt>run</span><span class=p>:</span><span class=w> </span><span class=p>|</span><span class=sd>
+</span><span class=sd>        </span><span class=w>        </span><span class=l>cosign sign --force $(cat ./image-digest) </span><span class=w>
+</span><span class=w>      </span><span class=nt>env</span><span class=p>:</span><span class=w>
+</span><span class=w>        </span><span class=nt>COSIGN_EXPERIMENTAL</span><span class=p>:</span><span class=w> </span><span class=m>1</span><span class=w>
+</span></code></pre></div><h2 id=summary>Summary</h2>
+<p>Hope you find this helpful. The Terraform configuration is available in my <a href=https://github.com/mchmarny/oidc-for-gcp-using-terraform>oidc-for-gcp-using-terraform</a> repo, and you can find a fully functional example fo the image-on-git-tag GitHub Actions workflow in my <a href=https://github.com/mchmarny/restme>restme</a> repo.</p>
+</div>
+<div class=post-footer>
+<div class=info>
+<span class=separator><a class=category href=/categories/dev/>dev</a></span>
+<span class=separator><a class=tag href=/tags/gcp/>gcp</a><a class=tag href=/tags/github/>github</a><a class=tag href=/tags/oidc/>oidc</a><a class=tag href=/tags/workflow/>workflow</a><a class=tag href=/tags/terraform/>terraform</a></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div><footer class="footer footer--base">
+<div class=by_farbox>
+<ul class=footer__list>
+<li class=footer__item>
+&copy;2022
+</li>
+</ul>
+</div>
+</footer></body>
+</html>
