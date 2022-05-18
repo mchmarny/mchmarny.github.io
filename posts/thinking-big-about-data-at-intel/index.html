@@ -1,37 +1,14 @@
-<!doctype html><html dir=ltr lang=en data-theme=dark><head>
-<title>
-Mark Chmarny
+<!doctype html><html dir=ltr lang=en data-theme=dark><head><title>Mark Chmarny
 |
-Thinking Big about Data at Intel
-</title>
-<meta charset=utf-8><meta name=generator content="Hugo 0.92.1"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=description content="
+Thinking Big about Data at Intel</title><meta charset=utf-8><meta name=generator content="Hugo 0.99.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=description content="
       few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
 
 
-    ">
-<link rel=stylesheet href=/css/main.min.179cc2d1e93212b8ec31560509068248e4269f4b648220d1154adb0d5e94aa7d.css integrity="sha256-F5zC0ekyErjsMVYFCQaCSOQmn0tkgiDRFUrbDV6Uqn0=" crossorigin=anonymous type=text/css>
-<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
-<link rel=stylesheet href=/css/custom.min.c932a7c5e2d9eb0228f2bd2992ea2d5acb4f2715f7d229cebabea22225c38356.css integrity="sha256-yTKnxeLZ6wIo8r0pkuotWstPJxX30inOur6iIiXDg1Y=" crossorigin=anonymous media=screen>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
-<link rel=preconnect href=https://fonts.googleapis.com>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
-<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
-<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
-<link rel=canonical href=https://blog.chmarny.com/posts/thinking-big-about-data-at-intel/>
-<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+    "><link rel=stylesheet href=/css/main.min.179cc2d1e93212b8ec31560509068248e4269f4b648220d1154adb0d5e94aa7d.css integrity="sha256-F5zC0ekyErjsMVYFCQaCSOQmn0tkgiDRFUrbDV6Uqn0=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/custom.min.c932a7c5e2d9eb0228f2bd2992ea2d5acb4f2715f7d229cebabea22225c38356.css integrity="sha256-yTKnxeLZ6wIo8r0pkuotWstPJxX30inOur6iIiXDg1Y=" crossorigin=anonymous media=screen><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet><link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon><link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png><link rel=canonical href=https://blog.chmarny.com/posts/thinking-big-about-data-at-intel/><script type=text/javascript src=/js/anatole-header.min.d0408165d31a17f17bba83038bf54e86121f85021bdf936382e636f0f77a952f.js integrity="sha256-0ECBZdMaF/F7uoMDi/VOhhIfhQIb35NjguY28Pd6lS8=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/search.min.52b0061f5a72cae7c93cca169782e5ce1a32c5e2634913107d5be63e8ab14b3a.js integrity="sha256-UrAGH1pyyufJPMoWl4LlzhoyxeJjSRMQfVvmPoqxSzo=" crossorigin=anonymous></script>
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
-<meta name=twitter:title content="Thinking Big about Data at Intel">
-<meta name=twitter:description content="I am excited to share with you today that starting Monday I will be joining the Big Data team at Intel. Yes, Intel. While not traditionally known for its software offerings, Intel has recently entered the Big Data space by introducing their own, 100% open source Hadoop distribution with unique security and monitoring features.">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Thinking Big about Data at Intel","headline":"Thinking Big about Data at Intel","alternativeHeadline":"","description":"
+<script type=text/javascript src=/js/anatole-theme-switcher.min.65e936b591bf81484a5ac438c8e4ae6454fb25516d58ce911e4888d7f230bdc5.js integrity="sha256-Zek2tZG/gUhKWsQ4yOSuZFT7JVFtWM6RHkiI1/IwvcU=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/search.min.b3a692306dd9db78b63ea76fac0b1b32033f19465563f7378cf5f7dc05811ce7.js integrity="sha256-s6aSMG3Z23i2PqdvrAsbMgM/GUZVY/c3jPX33AWBHOc=" crossorigin=anonymous></script><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png"><meta name=twitter:title content="Thinking Big about Data at Intel"><meta name=twitter:description content="I am excited to share with you today that starting Monday I will be joining the Big Data team at Intel. Yes, Intel. While not traditionally known for its software offerings, Intel has recently entered the Big Data space by introducing their own, 100% open source Hadoop distribution with unique security and monitoring features."><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"Thinking Big about Data at Intel","headline":"Thinking Big about Data at Intel","alternativeHeadline":"","description":"
       
         I am excited to share with you today that starting Monday I will be joining the Big Data team at Intel. Yes, Intel. While not traditionally known for its software offerings, Intel has recently entered the Big Data space by introducing their own, 100% open source Hadoop distribution with unique security and monitoring features.
 
@@ -39,124 +16,10 @@ Thinking Big about Data at Intel
       
 
 
-    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/thinking-big-about-data-at-intel\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2016","dateCreated":"2016-04-03T00:34:47.09Z","datePublished":"2016-04-03T00:34:47.09Z","dateModified":"2016-04-03T00:34:47.09Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/thinking-big-about-data-at-intel\/","wordCount":"292","genre":["news"],"keywords":["intel","job"]}</script>
-</head>
-<body>
-<header><div class="page-top
-.">
-<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/thinking-big-about-data-at-intel\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2016","dateCreated":"2016-04-03T00:34:47.09Z","datePublished":"2016-04-03T00:34:47.09Z","dateModified":"2016-04-03T00:34:47.09Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/thinking-big-about-data-at-intel\/","wordCount":"292","genre":["news"],"keywords":["intel","job"]}</script></head><body><header><div class="page-top
+."><a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false><span aria-hidden=true></span>
 <span aria-hidden=true></span>
-<span aria-hidden=true></span>
-<span aria-hidden=true></span>
-</a>
-<nav>
-<ul class=nav__list id=navMenu>
-<div class=nav__links>
-<li>
-<a href=/ title>Home</a>
-</li>
-<li>
-<a href=/posts/ title>Posts</a>
-</li>
-<li>
-<a href=/search/ title>Search</a>
-</li>
-<li>
-<a href=/about/ title>About</a>
-</li>
-</div>
-<ul>
-<li>
-<a class=theme-switch title="Switch Theme">
-<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</ul>
-</nav>
-</div>
-</header>
-<div class=wrapper>
-<aside><div class="sidebar
-.">
-<div class=sidebar__content>
-<div class=logo-title>
-<div class=title>
-<img src=/images/profile.png alt="profile picture">
-<h3 title><a href=/>Mark Chmarny</a></h3>
-<div class=description>
-<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
-</div>
-</div>
-</div>
-<ul class=social-links>
-<li>
-<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
-<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
-<i class="fab fa-github fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://speakerdeck.com/mchmarny rel=me aria-label="Speaker Deck" title="Speaker Deck">
-<i class="fas fa-file-powerpoint fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
-<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div><footer class="footer footer--sidebar">
-<div class=by_farbox>
-<ul class=footer__list>
-<li class=footer__item>
-&copy;2022
-</li>
-</ul>
-</div>
-</footer></div>
-</aside>
-<main>
-<div class=autopagerize_page_element>
-<div class=content>
-<div class="post
-.">
-<div class=post-content>
-<div class=post-title>
-<h1>Thinking Big about Data at Intel</h1>
-</div><p>I am excited to share with you today that starting Monday I will be joining the Big Data team at <a href="http://www.intel.com/&t=YjBkOTU4OTE0ZjlmMGI5YmQ4MTNlMWE0NzUwMGE3MmQwODdmNzRjNCxJVHRWNTZwQw%3D%3D">Intel</a>. Yes, Intel. While not traditionally known for its software offerings, Intel has recently entered the Big Data space by introducing their own, <a href="http://hadoop.intel.com/&t=OGIwNmNhMjhlMDk1Y2IzODIyMmEyYWZkYjRmMmI4YTFhZjUwN2UyMyxJVHRWNTZwQw%3D%3D">100% open source Hadoop distribution</a> with unique security and monitoring features.</p>
-<p><img src=/images/0__uV1b9YMGzxVXXQdZ.jpg alt></p>
-<p>As illustrated by their <a href="https://github.com/intel-hadoop&t=ZjRlMWMzY2FkYjZiYTJiZWI0ZWFkY2JjZDk5ZWM5NDMxYWM1MjYwNixJVHRWNTZwQw%3D%3D">Github repository</a>, Intel has already done a lot of work with <a href="http://hadoop.apache.org/&t=YzcxOTFjNmE3MDAzNDUyY2VlMzdkZjdkZjc2MjMxYmQ0YTYwYjYzYixJVHRWNTZwQw%3D%3D">Apache Hadoop</a>. The particular repos worth mentioning are their work on <a href="http://hbase.apache.org/&t=N2M0ZDU2OGViNjdlMTY3NjY2OTI3ODhiZmVhMDJlNjMyZTZkNTgwNCxJVHRWNTZwQw%3D%3D">HBase’s</a> security in <a href="https://github.com/intel-hadoop/project-rhino&t=MmQ5MWMxNDI1MjEzZjU2MWE3NGRjMjZlZmEwNjg2MWI2MTFiOGNjMixJVHRWNTZwQw%3D%3D">Project Rhino</a> as well as their work on advanced SQL support in Hive and performance enhancements for HBase in <a href="https://github.com/intel-hadoop/project-panthera&t=ODMxY2M4NDBiYzc2ZGE3NzBiZGFjZjI0NTgxNmIwNzdkYmQ3YmJmNixJVHRWNTZwQw%3D%3D">Project Panthera</a>. In addition to these projects, Intel has also established <a href="https://github.com/intel-hadoop/HiBench&t=ZGUzOGRjMWJjZmY4MzcyNzEyNDdiMGY4YzU1NDgzZjQzNmEwYTFmOSxJVHRWNTZwQw%3D%3D">Benchmarking Suite</a> and <a href="https://github.com/intel-hadoop/HiTune&t=NzMzNmQ4MjM4OTQyZTM2MmE3Mzc3YTJkY2RiZTg3YmMzYWZkZmJlZCxJVHRWNTZwQw%3D%3D">Performance Analyzer</a> projects which aim to standardize measurements around real-life Hadoop workloads.</p>
-<p>As a solution architect, I will work on a team dedicated to designing the next-generation data analytics platform by leveraging the full breadth of Intel’s infrastructure experience with compute (<a href="http://www.intel.com/content/www/us/en/processors/xeon/xeon-processor-e7-family.html&t=NmI4MTAzMjFjMjUwNGY3ZWQ1ZjA3ZWRhMGNjZTJiYTM2MWU5MTFhZCxJVHRWNTZwQw%3D%3D">Xeon processor</a>), storage (<a href="http://www.intel.com/content/www/us/en/solid-state-drives/solid-state-drives-ssd.html&t=YjVmNjkwNjFhODQ4OTdiYTIxNjU2OWM1Yjc1MTI5OWEyOTVmNzk4YixJVHRWNTZwQw%3D%3D">Intel SSD</a>), and networking (<a href="http://www.intel.com/content/www/us/en/network-adapters/converged-network-adapters.html&t=ZjM3ZWNjNGYyMTQwZmU5YjBmY2VhMmZiM2Y3OGZlNmYxZDMwMzQ4ZSxJVHRWNTZwQw%3D%3D">Intel 10GbE</a>), as well as its cryptographic and compression technologies (<a href="http://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni&t=MmM0MjJlYjNmNjU4NmViM2ViMjQ2ZDViZmI3YmVkNDUxMWY1MDMyZCxJVHRWNTZwQw%3D%3D">AES-NI</a>, <a href="http://software.intel.com/en-us/articles/using-intel-streaming-simd-extensions-and-intel-integrated-performance-primitives-to-accelerate-algorithms&t=NjBjYjJjOTY0NWUxMWMyMWZlMWQ0YTlkNmU1OGVlNDcxYTU2NGU4YSxJVHRWNTZwQw%3D%3D">SSE</a>).</p>
-<h2 id=why-intel>Why Intel</h2>
-<p>If you have read <a href=http://m.chmarny.com/>my blog</a> over the last couple of years, you will <a href=/posts/3-killer-big-data-app-opportunities.md>know how passionate I am about data</a>. I believe Apache Hadoop specifically represents a very unique opportunity for the enterprise as it challenges many preconceived notions about analytics, both from the scale as well as cost perspective.</p>
-<blockquote>
-<p>My vision for Hadoop is for it to become a truly viable data platform: open, easy and performant.</p>
-</blockquote>
-<p>A platform upon which the community can innovate and solve real complex problems. I joined Intel because it provides me the means to execute on this very vision. After all, Intel’s Hadoop distribution is the only open source platform backed by a Fortune 100 company.</p>
-</div>
-<div class=post-footer>
-<div class=info>
-<span class=separator><a class=category href=/categories/news/>news</a></span>
-<span class=separator><a class=tag href=/tags/intel/>intel</a><a class=tag href=/tags/job/>job</a></span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div><footer class="footer footer--base">
-<div class=by_farbox>
-<ul class=footer__list>
-<li class=footer__item>
-&copy;2022
-</li>
-</ul>
-</div>
-</footer></body>
-</html>
+<span aria-hidden=true></span></a><nav><ul class=nav__list id=navMenu><div class=nav__links><li><a href=/ title>Home</a></li><li><a href=/posts/ title>Posts</a></li><li><a href=/search/ title>Search</a></li><li><a href=/about/ title>About</a></li></div><ul><li><a class=theme-switch title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></li></ul></ul></nav></div></header><div class=wrapper><aside><div class="sidebar
+."><div class=sidebar__content><div class=logo-title><div class=title><img src=/images/profile.png alt="profile picture"><h3 title><a href=/>Mark Chmarny</a></h3><div class=description><p>few longer thoughts,<br>because every once in a while<br>140 characters is just not enough</p></div></div></div><ul class=social-links><li><a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter><i class="fab fa-twitter fa-2x" aria-hidden=true></i></a></li><li><a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub><i class="fab fa-github fa-2x" aria-hidden=true></i></a></li><li><a href=https://speakerdeck.com/mchmarny rel=me aria-label="Speaker Deck" title="Speaker Deck"><i class="fas fa-file-powerpoint fa-2x" aria-hidden=true></i></a></li><li><a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail><i class="fas fa-envelope fa-2x" aria-hidden=true></i></a></li></ul></div><footer class="footer footer--sidebar"><div class=by_farbox><ul class=footer__list><li class=footer__item>&copy;2022</li></ul></div></footer></div></aside><main><div class=autopagerize_page_element><div class=content><div class="post
+."><div class=post-content><div class=post-title><h1>Thinking Big about Data at Intel</h1></div><p>I am excited to share with you today that starting Monday I will be joining the Big Data team at <a href="http://www.intel.com/&t=YjBkOTU4OTE0ZjlmMGI5YmQ4MTNlMWE0NzUwMGE3MmQwODdmNzRjNCxJVHRWNTZwQw%3D%3D">Intel</a>. Yes, Intel. While not traditionally known for its software offerings, Intel has recently entered the Big Data space by introducing their own, <a href="http://hadoop.intel.com/&t=OGIwNmNhMjhlMDk1Y2IzODIyMmEyYWZkYjRmMmI4YTFhZjUwN2UyMyxJVHRWNTZwQw%3D%3D">100% open source Hadoop distribution</a> with unique security and monitoring features.</p><p><img src=/images/0__uV1b9YMGzxVXXQdZ.jpg alt></p><p>As illustrated by their <a href="https://github.com/intel-hadoop&t=ZjRlMWMzY2FkYjZiYTJiZWI0ZWFkY2JjZDk5ZWM5NDMxYWM1MjYwNixJVHRWNTZwQw%3D%3D">Github repository</a>, Intel has already done a lot of work with <a href="http://hadoop.apache.org/&t=YzcxOTFjNmE3MDAzNDUyY2VlMzdkZjdkZjc2MjMxYmQ0YTYwYjYzYixJVHRWNTZwQw%3D%3D">Apache Hadoop</a>. The particular repos worth mentioning are their work on <a href="http://hbase.apache.org/&t=N2M0ZDU2OGViNjdlMTY3NjY2OTI3ODhiZmVhMDJlNjMyZTZkNTgwNCxJVHRWNTZwQw%3D%3D">HBase’s</a> security in <a href="https://github.com/intel-hadoop/project-rhino&t=MmQ5MWMxNDI1MjEzZjU2MWE3NGRjMjZlZmEwNjg2MWI2MTFiOGNjMixJVHRWNTZwQw%3D%3D">Project Rhino</a> as well as their work on advanced SQL support in Hive and performance enhancements for HBase in <a href="https://github.com/intel-hadoop/project-panthera&t=ODMxY2M4NDBiYzc2ZGE3NzBiZGFjZjI0NTgxNmIwNzdkYmQ3YmJmNixJVHRWNTZwQw%3D%3D">Project Panthera</a>. In addition to these projects, Intel has also established <a href="https://github.com/intel-hadoop/HiBench&t=ZGUzOGRjMWJjZmY4MzcyNzEyNDdiMGY4YzU1NDgzZjQzNmEwYTFmOSxJVHRWNTZwQw%3D%3D">Benchmarking Suite</a> and <a href="https://github.com/intel-hadoop/HiTune&t=NzMzNmQ4MjM4OTQyZTM2MmE3Mzc3YTJkY2RiZTg3YmMzYWZkZmJlZCxJVHRWNTZwQw%3D%3D">Performance Analyzer</a> projects which aim to standardize measurements around real-life Hadoop workloads.</p><p>As a solution architect, I will work on a team dedicated to designing the next-generation data analytics platform by leveraging the full breadth of Intel’s infrastructure experience with compute (<a href="http://www.intel.com/content/www/us/en/processors/xeon/xeon-processor-e7-family.html&t=NmI4MTAzMjFjMjUwNGY3ZWQ1ZjA3ZWRhMGNjZTJiYTM2MWU5MTFhZCxJVHRWNTZwQw%3D%3D">Xeon processor</a>), storage (<a href="http://www.intel.com/content/www/us/en/solid-state-drives/solid-state-drives-ssd.html&t=YjVmNjkwNjFhODQ4OTdiYTIxNjU2OWM1Yjc1MTI5OWEyOTVmNzk4YixJVHRWNTZwQw%3D%3D">Intel SSD</a>), and networking (<a href="http://www.intel.com/content/www/us/en/network-adapters/converged-network-adapters.html&t=ZjM3ZWNjNGYyMTQwZmU5YjBmY2VhMmZiM2Y3OGZlNmYxZDMwMzQ4ZSxJVHRWNTZwQw%3D%3D">Intel 10GbE</a>), as well as its cryptographic and compression technologies (<a href="http://software.intel.com/en-us/articles/intel-advanced-encryption-standard-instructions-aes-ni&t=MmM0MjJlYjNmNjU4NmViM2ViMjQ2ZDViZmI3YmVkNDUxMWY1MDMyZCxJVHRWNTZwQw%3D%3D">AES-NI</a>, <a href="http://software.intel.com/en-us/articles/using-intel-streaming-simd-extensions-and-intel-integrated-performance-primitives-to-accelerate-algorithms&t=NjBjYjJjOTY0NWUxMWMyMWZlMWQ0YTlkNmU1OGVlNDcxYTU2NGU4YSxJVHRWNTZwQw%3D%3D">SSE</a>).</p><h2 id=why-intel>Why Intel</h2><p>If you have read <a href=http://m.chmarny.com/>my blog</a> over the last couple of years, you will <a href=/posts/3-killer-big-data-app-opportunities.md>know how passionate I am about data</a>. I believe Apache Hadoop specifically represents a very unique opportunity for the enterprise as it challenges many preconceived notions about analytics, both from the scale as well as cost perspective.</p><blockquote><p>My vision for Hadoop is for it to become a truly viable data platform: open, easy and performant.</p></blockquote><p>A platform upon which the community can innovate and solve real complex problems. I joined Intel because it provides me the means to execute on this very vision. After all, Intel’s Hadoop distribution is the only open source platform backed by a Fortune 100 company.</p></div><div class=post-footer><div class=info><span class=separator><a class=category href=/categories/news/>news</a></span>
+<span class=separator><a class=tag href=/tags/intel/>intel</a><a class=tag href=/tags/job/>job</a></span></div></div></div></div></div></main></div><footer class="footer footer--base"><div class=by_farbox><ul class=footer__list><li class=footer__item>&copy;2022</li></ul></div></footer></body></html>

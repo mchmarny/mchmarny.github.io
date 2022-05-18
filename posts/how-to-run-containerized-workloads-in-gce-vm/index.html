@@ -1,37 +1,14 @@
-<!doctype html><html dir=ltr lang=en data-theme=dark><head>
-<title>
-Mark Chmarny
+<!doctype html><html dir=ltr lang=en data-theme=dark><head><title>Mark Chmarny
 |
-How to run containerized workloads in GCE VM
-</title>
-<meta charset=utf-8><meta name=generator content="Hugo 0.92.1"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name=description content="
+How to run containerized workloads in GCE VM</title><meta charset=utf-8><meta name=generator content="Hugo 0.99.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=description content="
       few longer thoughts, <br/>because every once in a while <br/>140 characters is just not enough
 
 
-    ">
-<link rel=stylesheet href=/css/main.min.179cc2d1e93212b8ec31560509068248e4269f4b648220d1154adb0d5e94aa7d.css integrity="sha256-F5zC0ekyErjsMVYFCQaCSOQmn0tkgiDRFUrbDV6Uqn0=" crossorigin=anonymous type=text/css>
-<link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css>
-<link rel=stylesheet href=/css/custom.min.c932a7c5e2d9eb0228f2bd2992ea2d5acb4f2715f7d229cebabea22225c38356.css integrity="sha256-yTKnxeLZ6wIo8r0pkuotWstPJxX30inOur6iIiXDg1Y=" crossorigin=anonymous media=screen>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
-<link rel=preconnect href=https://fonts.googleapis.com>
-<link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet>
-<link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon>
-<link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png>
-<link rel=canonical href=https://blog.chmarny.com/posts/how-to-run-containerized-workloads-in-gce-vm/>
-<script type=text/javascript src=/js/anatole-header.min.2a2cd9614b7d007dfbb75e8da19e3a0fa872ceab53c6d000c00b7a0c89b85bfc.js integrity="sha256-KizZYUt9AH37t16NoZ46D6hyzqtTxtAAwAt6DIm4W/w=" crossorigin=anonymous></script>
+    "><link rel=stylesheet href=/css/main.min.179cc2d1e93212b8ec31560509068248e4269f4b648220d1154adb0d5e94aa7d.css integrity="sha256-F5zC0ekyErjsMVYFCQaCSOQmn0tkgiDRFUrbDV6Uqn0=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/markupHighlight.min.058b31f17db60602cc415fd63b0427e7932fbf35c70d8e341a4c39385f5f6f3e.css integrity="sha256-BYsx8X22BgLMQV/WOwQn55MvvzXHDY40Gkw5OF9fbz4=" crossorigin=anonymous type=text/css><link rel=stylesheet href=/css/custom.min.c932a7c5e2d9eb0228f2bd2992ea2d5acb4f2715f7d229cebabea22225c38356.css integrity="sha256-yTKnxeLZ6wIo8r0pkuotWstPJxX30inOur6iIiXDg1Y=" crossorigin=anonymous media=screen><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel=stylesheet><link rel="shortcut icon" href=/favicons/favicon.ico type=image/x-icon><link rel=apple-touch-icon sizes=180x180 href=/favicons/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicons/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicons/favicon-16x16.png><link rel=canonical href=https://blog.chmarny.com/posts/how-to-run-containerized-workloads-in-gce-vm/><script type=text/javascript src=/js/anatole-header.min.d0408165d31a17f17bba83038bf54e86121f85021bdf936382e636f0f77a952f.js integrity="sha256-0ECBZdMaF/F7uoMDi/VOhhIfhQIb35NjguY28Pd6lS8=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin=anonymous></script>
 <script src=https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/anatole-theme-switcher.min.7fd87181cdd7e8413aa64b6867bb32f3a8dc242e684fc7d5bbb9f600dbc2b6eb.js integrity="sha256-f9hxgc3X6EE6pktoZ7sy86jcJC5oT8fVu7n2ANvCtus=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/search.min.52b0061f5a72cae7c93cca169782e5ce1a32c5e2634913107d5be63e8ab14b3a.js integrity="sha256-UrAGH1pyyufJPMoWl4LlzhoyxeJjSRMQfVvmPoqxSzo=" crossorigin=anonymous></script>
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png">
-<meta name=twitter:title content="How to run containerized workloads in GCE VM">
-<meta name=twitter:description content="While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.">
-<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How to run containerized workloads in GCE VM","headline":"How to run containerized workloads in GCE VM","alternativeHeadline":"","description":"
+<script type=text/javascript src=/js/anatole-theme-switcher.min.65e936b591bf81484a5ac438c8e4ae6454fb25516d58ce911e4888d7f230bdc5.js integrity="sha256-Zek2tZG/gUhKWsQ4yOSuZFT7JVFtWM6RHkiI1/IwvcU=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/search.min.b3a692306dd9db78b63ea76fac0b1b32033f19465563f7378cf5f7dc05811ce7.js integrity="sha256-s6aSMG3Z23i2PqdvrAsbMgM/GUZVY/c3jPX33AWBHOc=" crossorigin=anonymous></script><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://blog.chmarny.com/images/site-feature-image.png"><meta name=twitter:title content="How to run containerized workloads in GCE VM"><meta name=twitter:description content="While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need."><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","articleSection":"posts","name":"How to run containerized workloads in GCE VM","headline":"How to run containerized workloads in GCE VM","alternativeHeadline":"","description":"
       
         While the idea of a serverless platform and long running workloads does seem somewhat \u0026ldquo;unnatural\u0026rdquo; at first, smart people are already working on that (looking at you @Knative community). In the meantime, a simple approach is sometimes all you may need.
 
@@ -39,198 +16,65 @@ How to run containerized workloads in GCE VM
       
 
 
-    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/how-to-run-containerized-workloads-in-gce-vm\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2019","dateCreated":"2019-08-21T22:10:24.15Z","datePublished":"2019-08-21T22:10:24.15Z","dateModified":"2019-08-21T22:10:24.15Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/how-to-run-containerized-workloads-in-gce-vm\/","wordCount":"733","genre":["dev"],"keywords":["vm","container","gce","google"]}</script>
-</head>
-<body>
-<header><div class="page-top
-.">
-<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+    ","inLanguage":"en","isFamilyFriendly":"true","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/blog.chmarny.com\/posts\/how-to-run-containerized-workloads-in-gce-vm\/"},"author":{"@type":"Person","name":"Mark Chmarny"},"creator":{"@type":"Person","name":"Mark Chmarny"},"accountablePerson":{"@type":"Person","name":"Mark Chmarny"},"copyrightHolder":{"@type":"Person","name":"Mark Chmarny"},"copyrightYear":"2019","dateCreated":"2019-08-21T22:10:24.15Z","datePublished":"2019-08-21T22:10:24.15Z","dateModified":"2019-08-21T22:10:24.15Z","publisher":{"@type":"Organization","name":"Mark Chmarny","url":"https://blog.chmarny.com","logo":{"@type":"ImageObject","url":"https:\/\/blog.chmarny.com\/favicons\/favicon-32x32.png","width":"32","height":"32"}},"image":["https://blog.chmarny.com/images/site-feature-image.png"],"url":"https:\/\/blog.chmarny.com\/posts\/how-to-run-containerized-workloads-in-gce-vm\/","wordCount":"733","genre":["dev"],"keywords":["vm","container","gce","google"]}</script></head><body><header><div class="page-top
+."><a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false><span aria-hidden=true></span>
 <span aria-hidden=true></span>
-<span aria-hidden=true></span>
-<span aria-hidden=true></span>
-</a>
-<nav>
-<ul class=nav__list id=navMenu>
-<div class=nav__links>
-<li>
-<a href=/ title>Home</a>
-</li>
-<li>
-<a href=/posts/ title>Posts</a>
-</li>
-<li>
-<a href=/search/ title>Search</a>
-</li>
-<li>
-<a href=/about/ title>About</a>
-</li>
-</div>
-<ul>
-<li>
-<a class=theme-switch title="Switch Theme">
-<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</ul>
-</nav>
-</div>
-</header>
-<div class=wrapper>
-<aside><div class="sidebar
-.">
-<div class=sidebar__content>
-<div class=logo-title>
-<div class=title>
-<img src=/images/profile.png alt="profile picture">
-<h3 title><a href=/>Mark Chmarny</a></h3>
-<div class=description>
-<p>few longer thoughts, <br>because every once in a while <br>140 characters is just not enough</p>
-</div>
-</div>
-</div>
-<ul class=social-links>
-<li>
-<a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter>
-<i class="fab fa-twitter fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub>
-<i class="fab fa-github fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=https://speakerdeck.com/mchmarny rel=me aria-label="Speaker Deck" title="Speaker Deck">
-<i class="fas fa-file-powerpoint fa-2x" aria-hidden=true></i>
-</a>
-</li>
-<li>
-<a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail>
-<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
-</a>
-</li>
-</ul>
-</div><footer class="footer footer--sidebar">
-<div class=by_farbox>
-<ul class=footer__list>
-<li class=footer__item>
-&copy;2022
-</li>
-</ul>
-</div>
-</footer></div>
-</aside>
-<main>
-<div class=autopagerize_page_element>
-<div class=content>
-<div class="post
-.">
-<div class=post-content>
-<img class=post-thumbnail src=/images/gcp.png alt="Thumbnail image">
-<div class=post-title>
-<h1>How to run containerized workloads in GCE VM</h1>
-</div><p>While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you <a href=http://twitter.com/KnativeProject>@Knative</a> community). In the meantime, a simple approach is sometimes all you may need.</p>
-<p>In this post I will illustrating how to use Google Compute Engine (GCE) container execution option to run variable duration jobs. This approach supports custom VMs, GPU/TPU accelerators and VPC networks… so may be handy alternative to other compute options on GCP. I’ll also demo how to auto-terminate the created VM on container completion, so you won’t have to pay for idle VM time.</p>
-<p>Finally, in this example I’ll parses small gzip file from Google Cloud Storage (GCS), but since this approach is not limited by client timeouts you can use it to do pretty much anything… transformations on bigger files, lightweight ETL, or media format encoding. You can even combine it with <a href=https://cloud.google.com/appengine/docs/standard/python/taskqueue/>GCP Task Queue</a> for more complex pipelines.</p>
-<h2 id=pre-requirements>Pre-requirements</h2>
-<p>If you don’t have one already, create new GCP project and configuring <a href=https://cloud.google.com/sdk/docs/>Google Cloud SDK</a>.</p>
-<h2 id=setup>Setup</h2>
-<p>To start, clone this repo, and navigate into that directory:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>git clone <span class=o>[</span>https://github.com/mchmarny/long-running-job.git<span class=o>](</span>https://github.com/mchmarny/long-running-job.git<span class=o>)</span>  
-<span class=nb>cd</span> long-running-job
-</code></pre></div><p>Also, to streamline the subsequent commands, we are going to export a few variables:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=nb>export</span> <span class=nv>PROJECT</span><span class=o>=</span><span class=k>$(</span>gcloud config get-value project<span class=k>)</span>  
-<span class=nb>export</span> <span class=nv>APP_NAME</span><span class=o>=</span><span class=s2>&#34;my-long-job&#34;</span>  
-<span class=nb>export</span> <span class=nv>SA_NAME</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>@</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>.iam.gserviceaccount.com&#34;</span>
-</code></pre></div><h2 id=service-account>Service Account</h2>
-<p>To execute this sample you will need a <a href=https://cloud.google.com/iam/docs/creating-managing-service-accounts>GCP service account</a>. You can do that either in UI or using <code>gcloud</code> SDK.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud iam service-accounts create <span class=nv>$APP_NAME</span> <span class=se>\ </span> 
-  --display-name <span class=s2>&#34;Service Invoker Account for </span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>&#34;</span>
-</code></pre></div><p>We also will have to assign this account the necessary IAM roles:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/logging.logWriter
-
-gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/cloudtrace.agent
-
-gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/monitoring.metricWriter
-
-gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/storage.objectViewer
-
-gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/pubsub.editor
-
-gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
-</span><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --role roles/compute.instanceAdmin
-</code></pre></div><p>Finally, to enable our demo to impersonate that account, we will need to provision a key for that account which will be saved in your home directory. You should protect that key or just delete it after this demo.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud iam service-accounts keys create <span class=se>\
-</span><span class=se></span>  --iam-account <span class=nv>$SA_NAME</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>HOME</span><span class=si>}</span><span class=s2>/.</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>-sa.json&#34;</span>
-</code></pre></div><h2 id=container-image>Container Image</h2>
-<p>The unit of workload in this example is container image. To create an image from the source code in this demo, first vendor all the go dependencies:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>go mod tidy  
-go mod vendor
-</code></pre></div><p>And then submit the image build request to Cloud Build:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud builds submit --tag <span class=s2>&#34;gcr.io/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:0.0.1&#34;</span>
-</code></pre></div><p>If successful, you should see a confirmation with the fully qualified URI to the created image.</p>
-<h2 id=deploy-container-to-vm>Deploy Container to VM</h2>
-<p>Now to start a new VM and configure it to run the above built image. This sample will use gzipped CSV file (100-Sales-Records.csv.gz) located in publicly available GCS bucket (long-running-job-src-files). If you want you can replace these with your own files.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud compute instances create-with-container <span class=nv>$APP_NAME</span> <span class=se>\
-</span><span class=se></span>  --container-image<span class=o>=</span><span class=s2>&#34;gcr.io/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:0.0.1&#34;</span> <span class=se>\
-</span><span class=se></span>  --machine-type<span class=o>=</span>n1-standard-1 <span class=se>\
-</span><span class=se></span>  --zone<span class=o>=</span>us-central1-c <span class=se>\
-</span><span class=se></span>  --image-family<span class=o>=</span>cos-stable <span class=se>\
-</span><span class=se></span>  --image-project<span class=o>=</span>cos-cloud <span class=se>\
-</span><span class=se></span>  --maintenance-policy<span class=o>=</span>MIGRATE <span class=se>\
-</span><span class=se></span>  --scopes<span class=o>=</span>cloud-platform <span class=se>\
-</span><span class=se></span>  --container-privileged <span class=se>\
-</span><span class=se></span>  --container-env<span class=o>=</span><span class=s2>&#34;GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.pem,BUCKET=long-running-job-src-files,OBJECT=100-Sales-Records.csv.gz,TOPIC=</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
-</span><span class=se></span>  --container-mount-host-path<span class=o>=</span>mount-path<span class=o>=</span>/tmp,host-path<span class=o>=</span>/tmp,mode<span class=o>=</span>rw
-</code></pre></div><p>There is no way right now to upload files in the same command, so right after, you need copy the service account key created above to the new VM. The container is set to restart on failure so it will automatically use the key when it becomes available in the mounted volume attached to our VM.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud compute scp <span class=s2>&#34;</span><span class=si>${</span><span class=nv>HOME</span><span class=si>}</span><span class=s2>/.</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>-sa.json&#34;</span> <span class=se>\
-</span><span class=se></span>  <span class=s2>&#34;</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:/tmp/sa.pem&#34;</span> --zone<span class=o>=</span>us-central1-c
-</code></pre></div><h2 id=container-logs>Container Logs</h2>
-<p>Once the VM has started you can monitor the logs output from the container to <a href=https://cloud.google.com/stackdriver/>Stackdriver</a>. To do that we need to first capture the VM instance Id:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=nb>export</span> <span class=nv>VM_INSTANCE_ID</span><span class=o>=</span><span class=k>$(</span>gcloud compute instances describe <span class=se>\
-</span><span class=se></span>  <span class=nv>$APP_NAME</span> --zone<span class=o>=</span>us-central1-c --format<span class=o>=</span><span class=s2>&#34;value(id)&#34;</span><span class=k>)</span>
-</code></pre></div><p>Once we have captured the VM instance ID we can now query the <a href=https://cloud.google.com/stackdriver/>Stackdriver</a> for logs output by the container:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell>gcloud logging <span class=nb>read</span> <span class=s2>&#34;resource.type=gce_instance AND \
-</span><span class=s2>  logName=projects/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/logs/cos_containers AND \
-</span><span class=s2>  resource.labels.instance_id=</span><span class=si>${</span><span class=nv>VM_INSTANCE_ID</span><span class=si>}</span><span class=s2> AND \
-</span><span class=s2>  jsonPayload.message:\&#34;\[LRJ\]\&#34;&#34;</span> <span class=se>\
-</span><span class=se></span>  --order<span class=o>=</span><span class=s2>&#34;asc&#34;</span>
-</code></pre></div><blockquote>
-<p>Note, this command will print only the logs that are output by the user code in the container (the logger inside prefixes all log entries with &ldquo;[LRJ]"). You can see the complete list of log entries by removing the_<code>_jsonPayload.message:"[LRJ]"_</code> filter.</p>
-</blockquote>
-<p>After the container exists, the VM will automatically shutdown but the logs should still be still available in Stackdriver for forensic analyses.</p>
-<h2 id=conclusion>Conclusion</h2>
-<p>I hope you find this helpful addition to your GCP compute toolbox. You can find the source code along with scripts for easier execution at <a href=https://github.com/mchmarny/long-running-job>https://github.com/mchmarny/long-running-job</a></p>
-</div>
-<div class=post-footer>
-<div class=info>
-<span class=separator><a class=category href=/categories/dev/>dev</a></span>
-<span class=separator><a class=tag href=/tags/vm/>vm</a><a class=tag href=/tags/container/>container</a><a class=tag href=/tags/gce/>gce</a><a class=tag href=/tags/google/>google</a></span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-</div><footer class="footer footer--base">
-<div class=by_farbox>
-<ul class=footer__list>
-<li class=footer__item>
-&copy;2022
-</li>
-</ul>
-</div>
-</footer></body>
-</html>
+<span aria-hidden=true></span></a><nav><ul class=nav__list id=navMenu><div class=nav__links><li><a href=/ title>Home</a></li><li><a href=/posts/ title>Posts</a></li><li><a href=/search/ title>Search</a></li><li><a href=/about/ title>About</a></li></div><ul><li><a class=theme-switch title="Switch Theme"><i class="fas fa-adjust fa-fw" aria-hidden=true></i></a></li></ul></ul></nav></div></header><div class=wrapper><aside><div class="sidebar
+."><div class=sidebar__content><div class=logo-title><div class=title><img src=/images/profile.png alt="profile picture"><h3 title><a href=/>Mark Chmarny</a></h3><div class=description><p>few longer thoughts,<br>because every once in a while<br>140 characters is just not enough</p></div></div></div><ul class=social-links><li><a href=https://twitter.com/mchmarny rel=me aria-label=Twitter title=Twitter><i class="fab fa-twitter fa-2x" aria-hidden=true></i></a></li><li><a href=https://github.com/mchmarny rel=me aria-label=GitHub title=GitHub><i class="fab fa-github fa-2x" aria-hidden=true></i></a></li><li><a href=https://speakerdeck.com/mchmarny rel=me aria-label="Speaker Deck" title="Speaker Deck"><i class="fas fa-file-powerpoint fa-2x" aria-hidden=true></i></a></li><li><a href=mailto:blog@chmarny.com rel=me aria-label=e-mail title=e-mail><i class="fas fa-envelope fa-2x" aria-hidden=true></i></a></li></ul></div><footer class="footer footer--sidebar"><div class=by_farbox><ul class=footer__list><li class=footer__item>&copy;2022</li></ul></div></footer></div></aside><main><div class=autopagerize_page_element><div class=content><div class="post
+."><div class=post-content><img class=post-thumbnail src=/images/gcp.png alt="Thumbnail image"><div class=post-title><h1>How to run containerized workloads in GCE VM</h1></div><p>While the idea of a serverless platform and long running workloads does seem somewhat &ldquo;unnatural&rdquo; at first, smart people are already working on that (looking at you <a href=http://twitter.com/KnativeProject>@Knative</a> community). In the meantime, a simple approach is sometimes all you may need.</p><p>In this post I will illustrating how to use Google Compute Engine (GCE) container execution option to run variable duration jobs. This approach supports custom VMs, GPU/TPU accelerators and VPC networks… so may be handy alternative to other compute options on GCP. I’ll also demo how to auto-terminate the created VM on container completion, so you won’t have to pay for idle VM time.</p><p>Finally, in this example I’ll parses small gzip file from Google Cloud Storage (GCS), but since this approach is not limited by client timeouts you can use it to do pretty much anything… transformations on bigger files, lightweight ETL, or media format encoding. You can even combine it with <a href=https://cloud.google.com/appengine/docs/standard/python/taskqueue/>GCP Task Queue</a> for more complex pipelines.</p><h2 id=pre-requirements>Pre-requirements</h2><p>If you don’t have one already, create new GCP project and configuring <a href=https://cloud.google.com/sdk/docs/>Google Cloud SDK</a>.</p><h2 id=setup>Setup</h2><p>To start, clone this repo, and navigate into that directory:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>git clone <span class=o>[</span>https://github.com/mchmarny/long-running-job.git<span class=o>](</span>https://github.com/mchmarny/long-running-job.git<span class=o>)</span>  
+</span></span><span class=line><span class=cl><span class=nb>cd</span> long-running-job
+</span></span></code></pre></div><p>Also, to streamline the subsequent commands, we are going to export a few variables:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>export</span> <span class=nv>PROJECT</span><span class=o>=</span><span class=k>$(</span>gcloud config get-value project<span class=k>)</span>  
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>APP_NAME</span><span class=o>=</span><span class=s2>&#34;my-long-job&#34;</span>  
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>SA_NAME</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>@</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>.iam.gserviceaccount.com&#34;</span>
+</span></span></code></pre></div><h2 id=service-account>Service Account</h2><p>To execute this sample you will need a <a href=https://cloud.google.com/iam/docs/creating-managing-service-accounts>GCP service account</a>. You can do that either in UI or using <code>gcloud</code> SDK.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud iam service-accounts create <span class=nv>$APP_NAME</span> <span class=se>\ </span> 
+</span></span><span class=line><span class=cl>  --display-name <span class=s2>&#34;Service Invoker Account for </span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span></code></pre></div><p>We also will have to assign this account the necessary IAM roles:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/logging.logWriter
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/cloudtrace.agent
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/monitoring.metricWriter
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/storage.objectViewer
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/pubsub.editor
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>gcloud projects add-iam-policy-binding <span class=nv>$PROJECT</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --member <span class=s2>&#34;serviceAccount:</span><span class=si>${</span><span class=nv>SA_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --role roles/compute.instanceAdmin
+</span></span></code></pre></div><p>Finally, to enable our demo to impersonate that account, we will need to provision a key for that account which will be saved in your home directory. You should protect that key or just delete it after this demo.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud iam service-accounts keys create <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --iam-account <span class=nv>$SA_NAME</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>HOME</span><span class=si>}</span><span class=s2>/.</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>-sa.json&#34;</span>
+</span></span></code></pre></div><h2 id=container-image>Container Image</h2><p>The unit of workload in this example is container image. To create an image from the source code in this demo, first vendor all the go dependencies:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>go mod tidy  
+</span></span><span class=line><span class=cl>go mod vendor
+</span></span></code></pre></div><p>And then submit the image build request to Cloud Build:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud builds submit --tag <span class=s2>&#34;gcr.io/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:0.0.1&#34;</span>
+</span></span></code></pre></div><p>If successful, you should see a confirmation with the fully qualified URI to the created image.</p><h2 id=deploy-container-to-vm>Deploy Container to VM</h2><p>Now to start a new VM and configure it to run the above built image. This sample will use gzipped CSV file (100-Sales-Records.csv.gz) located in publicly available GCS bucket (long-running-job-src-files). If you want you can replace these with your own files.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud compute instances create-with-container <span class=nv>$APP_NAME</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --container-image<span class=o>=</span><span class=s2>&#34;gcr.io/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:0.0.1&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --machine-type<span class=o>=</span>n1-standard-1 <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --zone<span class=o>=</span>us-central1-c <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --image-family<span class=o>=</span>cos-stable <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --image-project<span class=o>=</span>cos-cloud <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --maintenance-policy<span class=o>=</span>MIGRATE <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --scopes<span class=o>=</span>cloud-platform <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --container-privileged <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --container-env<span class=o>=</span><span class=s2>&#34;GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.pem,BUCKET=long-running-job-src-files,OBJECT=100-Sales-Records.csv.gz,TOPIC=</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --container-mount-host-path<span class=o>=</span>mount-path<span class=o>=</span>/tmp,host-path<span class=o>=</span>/tmp,mode<span class=o>=</span>rw
+</span></span></code></pre></div><p>There is no way right now to upload files in the same command, so right after, you need copy the service account key created above to the new VM. The container is set to restart on failure so it will automatically use the key when it becomes available in the mounted volume attached to our VM.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud compute scp <span class=s2>&#34;</span><span class=si>${</span><span class=nv>HOME</span><span class=si>}</span><span class=s2>/.</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>-sa.json&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=s2>&#34;</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>:/tmp/sa.pem&#34;</span> --zone<span class=o>=</span>us-central1-c
+</span></span></code></pre></div><h2 id=container-logs>Container Logs</h2><p>Once the VM has started you can monitor the logs output from the container to <a href=https://cloud.google.com/stackdriver/>Stackdriver</a>. To do that we need to first capture the VM instance Id:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl><span class=nb>export</span> <span class=nv>VM_INSTANCE_ID</span><span class=o>=</span><span class=k>$(</span>gcloud compute instances describe <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  <span class=nv>$APP_NAME</span> --zone<span class=o>=</span>us-central1-c --format<span class=o>=</span><span class=s2>&#34;value(id)&#34;</span><span class=k>)</span>
+</span></span></code></pre></div><p>Once we have captured the VM instance ID we can now query the <a href=https://cloud.google.com/stackdriver/>Stackdriver</a> for logs output by the container:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>gcloud logging <span class=nb>read</span> <span class=s2>&#34;resource.type=gce_instance AND \
+</span></span></span><span class=line><span class=cl><span class=s2>  logName=projects/</span><span class=si>${</span><span class=nv>PROJECT</span><span class=si>}</span><span class=s2>/logs/cos_containers AND \
+</span></span></span><span class=line><span class=cl><span class=s2>  resource.labels.instance_id=</span><span class=si>${</span><span class=nv>VM_INSTANCE_ID</span><span class=si>}</span><span class=s2> AND \
+</span></span></span><span class=line><span class=cl><span class=s2>  jsonPayload.message:\&#34;\[LRJ\]\&#34;&#34;</span> <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>  --order<span class=o>=</span><span class=s2>&#34;asc&#34;</span>
+</span></span></code></pre></div><blockquote><p>Note, this command will print only the logs that are output by the user code in the container (the logger inside prefixes all log entries with &ldquo;[LRJ]&rdquo;). You can see the complete list of log entries by removing the_<code>_jsonPayload.message:"[LRJ]"_</code> filter.</p></blockquote><p>After the container exists, the VM will automatically shutdown but the logs should still be still available in Stackdriver for forensic analyses.</p><h2 id=conclusion>Conclusion</h2><p>I hope you find this helpful addition to your GCP compute toolbox. You can find the source code along with scripts for easier execution at <a href=https://github.com/mchmarny/long-running-job>https://github.com/mchmarny/long-running-job</a></p></div><div class=post-footer><div class=info><span class=separator><a class=category href=/categories/dev/>dev</a></span>
+<span class=separator><a class=tag href=/tags/vm/>vm</a><a class=tag href=/tags/container/>container</a><a class=tag href=/tags/gce/>gce</a><a class=tag href=/tags/google/>google</a></span></div></div></div></div></div></main></div><footer class="footer footer--base"><div class=by_farbox><ul class=footer__list><li class=footer__item>&copy;2022</li></ul></div></footer></body></html>
